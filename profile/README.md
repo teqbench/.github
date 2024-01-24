@@ -1,26 +1,17 @@
-# TeqBench (Org)
-
-> [!NOTE]
-> This README.md will appear on an organization's profile, visible only to organization members.
+# TeqBench
 
 ## Overview
 
 TeqBench is an application platform with multiple purpopses:
 
-- To continue developing the original "Trading Toolbox" vision as an investment buy/sell planning application.
 - To learn and utilize various technologies, including .NET, Angular, React, Azure, and GitHub.
 - To acquire and apply software development best practices relevant to the technologies being used.
-- To understand how to deploy on Azure from GitHub, including learning Azure DevOps and exploring various Azure offerings of interest.
 - To create and refine repository structures, achieving a high level of consistency across repositories, and adhering to best practices relevant to the technologies in use.
 - To develop reusable elements, such as an overall GitHub organizational structure, actions/workflows, and repository templates, which can be leveraged for consulting work.
 
 ## Org Documentation
 
 An organizational-level wiki is currently (1/15/24) not supported by GitHub. A workaround is to leverage the wiki feature of a repository. In the case of TeqBench, all general supporting documentation for the organization can be found in the [teqbench.docs](https://github.com/teqbench/teqbench.docs) repo, specifially, in the [teqbench.docs/wiki](https://github.com/teqbench/teqbench.docs/wiki). By keeping all documentation as part of the organization on GitHub, the content is centralized on a single platform (i.e. less to manage, immediately available and easily referenced as part of same platform.). One exception, sensitive information (i.e. trade secrets, passwords, etc.) should be managed in separate system all together and with multiple levels of access such as 2FA.
-
-## Org Backlogs
-
-- [General Project Backlog](https://github.com/orgs/teqbench/projects/1) - An organization wide, general task-board and road map.
 
 ## Repository Categories
 
