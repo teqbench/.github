@@ -90,12 +90,17 @@ jobs:
           # 1. Coverage Logic
           COV_PATH="./coverage/coverage-summary.json"
           if [ -f "$COV_PATH" ]; then
-            COV_PCT=$(jq '.total.lines.pct' $COV_PATH)
-            echo "COV_MSG=${COV_PCT}%" >> $GITHUB_ENV
-            if (( $(echo "$COV_PCT < 80" | bc -l) )); then
-              echo "COV_COLOR=yellow" >> $GITHUB_ENV
+            COV_PCT=$(jq -r '.total.lines.pct' $COV_PATH)
+            if [ "$COV_PCT" = "Unknown" ] || [ "$COV_PCT" = "null" ] || [ -z "$COV_PCT" ]; then
+              echo "COV_MSG=N/A" >> $GITHUB_ENV
+              echo "COV_COLOR=lightgrey" >> $GITHUB_ENV
             else
-              echo "COV_COLOR=brightgreen" >> $GITHUB_ENV
+              echo "COV_MSG=${COV_PCT}%" >> $GITHUB_ENV
+              if (( $(echo "$COV_PCT < 80" | bc -l) )); then
+                echo "COV_COLOR=yellow" >> $GITHUB_ENV
+              else
+                echo "COV_COLOR=brightgreen" >> $GITHUB_ENV
+              fi
             fi
           else
             echo "COV_MSG=unknown" >> $GITHUB_ENV
