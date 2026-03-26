@@ -70,9 +70,12 @@ jobs:
 
       - name: Audit dependencies
         run: |
-          # Fetch the centralized allow-list from the .github repo
-          ALLOW_LIST_URL="https://raw.githubusercontent.com/teqbench/.github/main/.github/audit-allow-list.json"
-          ALLOW_LIST=$(curl -sf "$ALLOW_LIST_URL" || echo "[]")
+          # Fetch the centralized allow-list from the .github repo (private, needs auth)
+          ALLOW_LIST=$(curl -sf \
+            -H "Authorization: token ${{ steps.app-token.outputs.token || github.token }}" \
+            -H "Accept: application/vnd.github.v3.raw" \
+            "https://api.github.com/repos/teqbench/.github/contents/.github/audit-allow-list.json?ref=main" \
+            || echo "[]")
           KNOWN_IDS=$(echo "$ALLOW_LIST" | jq -r '.[].id')
 
           # Run audit and capture JSON output
