@@ -1,0 +1,18 @@
+# Thin caller — delegates to the org-wide reusable Dep Compat Check workflow.
+# See: https://github.com/teqbench/.github/.github/workflows/dep-compat-check.yml
+#
+# UPDATE: Set epic-issue-number to the tracking issue number for this repo.
+
+name: Dependency Compatibility Check
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    uses: teqbench/.github/.github/workflows/dep-compat-check.yml@main
+    with:
+      epic-issue-number: 1
+    secrets: inherit

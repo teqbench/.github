@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────
+# Sync — Reusable Workflow (Merge main back to dev)
+# ─────────────────────────────────────────────────────────────
+# Keeps dev in sync with main after every merge.
+# Called by thin caller workflows in each consuming repo.
+# ─────────────────────────────────────────────────────────────
+
+name: Sync (Reusable)
+
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  sync:
+    name: Merge main → dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Merge main into dev
+        run: |
+          git config user.name "teqbench-automation[bot]"
+          git config user.email "263536528+teqbench-automation[bot]@users.noreply.github.com"
+
+          git checkout dev
+          git pull origin dev
+
+          git merge origin/main --no-edit -m "chore: sync main into dev [skip ci]"
+
+          git pull --rebase origin dev || true
+          git push origin dev

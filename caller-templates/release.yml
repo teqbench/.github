@@ -1,0 +1,17 @@
+# Thin caller — delegates to the org-wide reusable Release workflow.
+# See: https://github.com/teqbench/.github/.github/workflows/release.yml
+
+name: TeqBench Package - Release Workflow
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: teqbench/.github/.github/workflows/release.yml@main
+    secrets: inherit

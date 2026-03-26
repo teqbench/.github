@@ -1,0 +1,21 @@
+# Thin caller — delegates to the org-wide reusable CI workflow.
+# See: https://github.com/teqbench/.github/.github/workflows/ci.yml
+
+name: TeqBench Package - CI Workflow
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ci-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: teqbench/.github/.github/workflows/ci.yml@main
+    with:
+      gist-id: ${{ vars.GIST_ID }}
+    secrets: inherit
