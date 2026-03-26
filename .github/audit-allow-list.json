@@ -1,0 +1,10 @@
+[
+  { "id": "GHSA-f886-m6hf-6m8v", "package": "brace-expansion", "reason": "moderate, upstream: eslint" },
+  { "id": "GHSA-c2c7-rcm5-vvqj", "package": "picomatch", "reason": "high, ReDoS via extglob, upstream: angular" },
+  { "id": "GHSA-3v7f-55p6-f55p", "package": "picomatch", "reason": "high, method injection, upstream: angular" },
+  { "id": "GHSA-25h7-pfq9-p65f", "package": "flatted", "reason": "high, DoS via recursive parse, upstream: eslint" },
+  { "id": "GHSA-5c6j-r48x-rmvq", "package": "serialize-javascript", "reason": "high, RCE via RegExp.flags, upstream: angular build" },
+  { "id": "GHSA-phc3-fgpg-7m6h", "package": "undici", "reason": "high, DoS via DeduplicationHandler, upstream: node" },
+  { "id": "GHSA-vrm6-8vpv-qv8q", "package": "undici", "reason": "high, WebSocket DoS, upstream: node" },
+  { "id": "GHSA-4992-7rv2-5pvq", "package": "undici", "reason": "medium, CRLF injection, upstream: node" }
+]
