@@ -6,5 +6,8 @@
   { "id": "GHSA-5c6j-r48x-rmvq", "package": "serialize-javascript", "reason": "high, RCE via RegExp.flags, upstream: angular build" },
   { "id": "GHSA-phc3-fgpg-7m6h", "package": "undici", "reason": "high, DoS via DeduplicationHandler, upstream: node" },
   { "id": "GHSA-vrm6-8vpv-qv8q", "package": "undici", "reason": "high, WebSocket DoS, upstream: node" },
-  { "id": "GHSA-4992-7rv2-5pvq", "package": "undici", "reason": "medium, CRLF injection, upstream: node" }
+  { "id": "GHSA-4992-7rv2-5pvq", "package": "undici", "reason": "medium, CRLF injection, upstream: node" },
+  { "id": "GHSA-f269-vfmq-vjvj", "package": "undici", "reason": "high, WebSocket 64-bit length overflow, upstream: node" },
+  { "id": "GHSA-2mjp-6q6p-2qxm", "package": "undici", "reason": "high, HTTP request/response smuggling, upstream: node" },
+  { "id": "GHSA-v9p9-hfj2-hcw8", "package": "undici", "reason": "high, WebSocket server_max_window_bits DoS, upstream: node" }
 ]
