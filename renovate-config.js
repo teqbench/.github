@@ -23,7 +23,7 @@ module.exports = {
   ],
 
   // ── Branch targeting ─────────────────────────────────────────
-  baseBranches: ["dev"],
+  baseBranchPatterns: ["dev"],
 
   // ── Commit & PR conventions ──────────────────────────────────
   commitMessagePrefix: "chore(deps):",
@@ -38,7 +38,7 @@ module.exports = {
   packageRules: [
     // Internal @teqbench packages: auto-merge + group
     {
-      matchPackagePatterns: ["^@teqbench/"],
+      matchPackageNames: ["/^@teqbench//"],
       automerge: true,
       automergeType: "pr",
       groupName: "teqbench packages",
@@ -53,17 +53,16 @@ module.exports = {
         "husky",
         "lint-staged",
         "vitest",
-      ],
-      matchPackagePatterns: [
-        "^prettier-",
-        "^@prettier/",
-        "^@vitest/",
-        "^eslint-",
-        "^@eslint/",
-        "^typescript-eslint",
+        "/^prettier-/",
+        "/^@prettier//",
+        "/^@vitest//",
+        "/^eslint-/",
+        "/^@eslint//",
+        "/^typescript-eslint/",
       ],
       groupName: "tooling",
     },
+
 
     // TypeScript: separate PR
     {
