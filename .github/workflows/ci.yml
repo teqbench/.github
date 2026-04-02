@@ -174,8 +174,8 @@ jobs:
           TS_PKG=$(jq -r '.devDependencies.typescript' package.json)
           NODE_PKG=$(jq -r '.engines.node' package.json)
 
-          TS_README=$(grep -oP '^\| TypeScript\s+\| \K\S+' README.md)
-          NODE_README=$(grep -oP '^\| Node\.js\s+\| \K\S+' README.md)
+          TS_README=$(grep -oP '^\|[^|]*TypeScript[^|]*\|\s*\K\S+' README.md)
+          NODE_README=$(grep -oP '^\|[^|]*Node\.js[^|]*\|\s*\K\S+' README.md)
 
           FAIL=0
           if [ "$TS_PKG" != "$TS_README" ]; then
