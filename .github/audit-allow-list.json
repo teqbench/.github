@@ -11,6 +11,8 @@
   { "id": "GHSA-2mjp-6q6p-2qxm", "package": "undici", "reason": "high, HTTP request/response smuggling, upstream: node" },
   { "id": "GHSA-v9p9-hfj2-hcw8", "package": "undici", "reason": "high, WebSocket server_max_window_bits DoS, upstream: node" },
   { "id": "GHSA-37ch-88jc-xwx2", "package": "path-to-regexp", "reason": "high, ReDoS via multiple route params, upstream: express via storybook/angular-devkit" },
-  { "id": "GHSA-j3q9-mxjg-w52f", "package": "path-to-regexp", "reason": "high, ReDoS via sequential optional groups, upstream: express via storybook/angular-devkit" },
-  { "id": "GHSA-27v5-c462-wpq7", "package": "path-to-regexp", "reason": "high, ReDoS via multiple wildcards, upstream: express via storybook/angular-devkit" }
+  { "id": "GHSA-j3q9-mxjg-w52f", "package": "path-to-regexp", "reason": "high, ReDoS via sequential optional groups, upstream: express viastorybook/angular-devkit" },
+  { "id": "GHSA-27v5-c462-wpq7", "package": "path-to-regexp", "reason": "high, ReDoS via multiple wildcards, upstream: express via storybook/angular-devkit"   },
+  { "id": "GHSA-r5fr-rjxr-66jc", "package": "lodash", "reason": "high, code injection via _.template, upstream: storybook" },
+  { "id": "GHSA-f23m-r3pf-42rh", "package": "lodash", "reason": "high, prototype pollution via _.unset/_.omit, upstream: storybook" }
 ]
