@@ -14,12 +14,15 @@ module.exports = {
 
   // ── Repo list (add new repos here) ───────────────────────────
   repositories: [
+    "teqbench/teqbench.dev.templates.tbx-package",
     "teqbench/tbx-models",
-    "teqbench/tbx-ngx-http",
     "teqbench/tbx-ngx-errors",
+    "teqbench/tbx-ngx-http",
     "teqbench/tbx-mat-icons",
     "teqbench/tbx-mat-severity-icons",
     "teqbench/tbx-mat-notifications",
+    "teqbench/tbx-mat-banners",
+    "teqbench/tbx-mat-dialogs",
   ],
 
   // ── Branch targeting ─────────────────────────────────────────
