@@ -2,25 +2,25 @@
 
 Central CI/CD workflows and configuration for the TeqBench organization.
 
-## What's here
+## Reusable Workflows
 
-| File | Purpose |
-|---|---|
-| `.github/workflows/ci.yml` | Reusable CI workflow (lint, typecheck, test, build, badges) |
-| `.github/workflows/release.yml` | Reusable release workflow (Release Please + publish to GitHub Packages) |
-| `.github/workflows/sync.yml` | Reusable sync workflow (merge main back to dev) |
-| `.github/workflows/dep-compat-check.yml` | Reusable dependency compatibility tracker |
-| `.github/workflows/claude.yml` | Reusable Claude Code workflow (AI-assisted issues/PRs) |
-| `.github/workflows/renovate.yml` | Runs Renovate on a schedule for all repos |
-| `renovate-config.js` | Central Renovate configuration |
+| Workflow | Purpose | Used by |
+| :--- | :--- | :--- |
+| `ci.yml` | Lint, typecheck, test, build, badges | Node.js package repos |
+| `noop-ci.yml` | No&#8209;op CI with version badge | Non&#8209;compilable repos (skill libraries, docs) |
+| `release.yml` | Release Please versioning + publish to GitHub Packages | All repos |
+| `sync.yml` | Merge main back into dev after release | All repos |
+| `claude.yml` | Claude Code integration (@claude triggers) | All repos |
+| `dep-compat-check.yml` | Dependency compatibility tracking | Node.js package repos |
+| `renovate.yml` | Scheduled Renovate runs for dependency updates | Central (this repo only) |
 
-## How consuming repos use these workflows
+## How Consuming Repos Use These Workflows
 
-Each repo has thin caller workflows that delegate to these reusable workflows. Example:
+Each repo has thin caller workflows that delegate to these reusable workflows:
 
 ```yaml
-# .github/workflows/ci.yml in any @teqbench package repo
-name: CI
+# .github/workflows/ci.yml in a Node.js package repo
+name: ci
 on:
   push:
     branches: [main, dev]
@@ -35,19 +35,56 @@ jobs:
     secrets: inherit
 ```
 
-## Adding a new repo
+For non&#8209;compilable repos (no `package.json`), use `noop-ci.yml` instead:
 
-1. Create the repo from the `teqbench.dev.templates.tbx-package` template (thin callers are included)
-2. Add the repo name to the `repositories` array in `renovate-config.js`
-3. Ensure the repo has the required secrets (`APP_ID`, `APP_PRIVATE_KEY`, `GIST_TOKEN`, `ANTHROPIC_API_KEY`) — use org-level secrets for automatic propagation
+```yaml
+# .github/workflows/ci.yml in a skill library or docs repo
+name: ci
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
 
-## Required secrets
+jobs:
+  ci:
+    uses: teqbench/.github/.github/workflows/noop-ci.yml@main
+    with:
+      gist-id: ${{ vars.GIST_ID }}
+    secrets: inherit
+```
 
-These should be set at the **organization level** so all repos inherit them:
+Caller templates are available in the `caller-templates/` directory.
+
+## Adding a New Repo
+
+1. Create the repo from the appropriate template (`teqbench.dev.templates.tbx-package` for Node.js packages)
+2. Add thin caller workflows referencing the org reusable workflows
+3. Add the repo name to the `repositories` array in `renovate-config.js` (if it has npm dependencies)
+4. Set the `GIST_ID` repo variable to the shared gist ID (`a69600f4ed4ebed89ffb35d808e05eb4`)
+5. Ensure the repo has access to org&#8209;level secrets (automatic for private repos)
+
+## Required Secrets
+
+These are set at the **organization level** so all repos inherit them:
 
 | Secret | Purpose |
-|---|---|
-| `APP_ID` | teqbench-automation GitHub App ID |
-| `APP_PRIVATE_KEY` | teqbench-automation GitHub App private key |
+| :--- | :--- |
+| `APP_ID` | teqbench&#8209;automation GitHub App ID |
+| `APP_PRIVATE_KEY` | teqbench&#8209;automation GitHub App private key |
 | `GIST_TOKEN` | Token for pushing badge data to gist |
 | `ANTHROPIC_API_KEY` | Anthropic API key for Claude Code |
+
+## Caller Templates
+
+The `caller-templates/` directory contains ready&#8209;to&#8209;copy thin caller workflow files:
+
+| Template | Calls |
+| :--- | :--- |
+| `ci.yml` | `ci.yml` (Node.js) |
+| `claude.yml` | `claude.yml` |
+| `dep-compat-check.yml` | `dep&#8209;compat&#8209;check.yml` |
+| `release.yml` | `release.yml` |
+| `sync.yml` | `sync.yml` |
+
+A `noop-ci.yml` caller template is not included because the caller file is identical to the `ci.yml` template with only the `uses:` line changed.

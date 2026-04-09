@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────────────────────
+# No-op CI — Reusable Workflow (Version Badge Only)
+# ─────────────────────────────────────────────────────────────
+# For repos without compilable code (e.g. skill libraries,
+# documentation-only repos). Satisfies the org-level required
+# status check "ci / Lint, Typecheck & Test" and writes a
+# version badge to the shared gist on push events.
+# ─────────────────────────────────────────────────────────────
+
+name: No-op CI (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      gist-id:
+        description: "Gist ID for badge storage (repo-specific)"
+        required: true
+        type: string
+
+env:
+  GIST_OWNER: teqbench-shields-bot
+  REPO_NAME: ${{ github.event.repository.name }}
+
+permissions: {}
+
+jobs:
+  check:
+    name: Lint, Typecheck & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: No compilable code
+        run: echo "This repository contains no compilable code. No lint, typecheck, or test steps required."
+
+      - name: Checkout
+        if: github.event_name == 'push'
+        uses: actions/checkout@v6
+
+      - name: Read version
+        if: github.event_name == 'push'
+        run: |
+          if [ -f ".release-please-manifest.json" ]; then
+            VERSION=$(jq -r '."."' .release-please-manifest.json)
+          else
+            VERSION="unknown"
+          fi
+          echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Generate app token
+        if: github.event_name == 'push'
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: teqbench
+
+      - name: Push Version Badge
+        if: github.event_name == 'push'
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ steps.app-token.outputs.token }}
+          gistID: ${{ inputs.gist-id }}
+          filename: ${{ env.REPO_NAME }}-${{ github.ref_name }}-version.json
+          label: version
+          message: ${{ env.PKG_VERSION }}
+          color: blue
+          style: for-the-badge
