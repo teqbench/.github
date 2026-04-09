@@ -48,20 +48,11 @@ jobs:
           fi
           echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Generate app token
-        if: github.event_name == 'push'
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: teqbench
-
       - name: Push Version Badge
         if: github.event_name == 'push'
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
-          auth: ${{ steps.app-token.outputs.token }}
+          auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
           filename: ${{ env.REPO_NAME }}-${{ github.ref_name }}-version.json
           label: version
