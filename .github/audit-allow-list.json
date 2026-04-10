@@ -14,5 +14,8 @@
   { "id": "GHSA-j3q9-mxjg-w52f", "package": "path-to-regexp", "reason": "high, ReDoS via sequential optional groups, upstream: express viastorybook/angular-devkit" },
   { "id": "GHSA-27v5-c462-wpq7", "package": "path-to-regexp", "reason": "high, ReDoS via multiple wildcards, upstream: express via storybook/angular-devkit"   },
   { "id": "GHSA-r5fr-rjxr-66jc", "package": "lodash", "reason": "high, code injection via _.template, upstream: storybook" },
-  { "id": "GHSA-f23m-r3pf-42rh", "package": "lodash", "reason": "high, prototype pollution via _.unset/_.omit, upstream: storybook" }
+  { "id": "GHSA-f23m-r3pf-42rh", "package": "lodash", "reason": "high, prototype pollution via _.unset/_.omit, upstream: storybook" },
+  { "id": "GHSA-4w7w-66w2-5vf9", "package": "vite", "reason": "moderate, path traversal in optimized deps .map handling, dev-server only" },
+  { "id": "GHSA-v2wj-q39q-566r", "package": "vite", "reason": "high, server.fs.deny bypass via queries, dev-server only" },
+  { "id": "GHSA-p9ff-h696-f583", "package": "vite", "reason": "high, arbitrary file read via dev server WebSocket, dev-server only" }
 ]
