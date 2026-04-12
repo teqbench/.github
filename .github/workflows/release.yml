@@ -120,23 +120,30 @@ jobs:
             fs.writeFileSync('dist/docs/compatibility.json', JSON.stringify(out, null, 2) + '\n');
           "
 
-      - name: Generate docs/links.json
+      - name: Generate docs/metadata.json
         run: |
           node -e "
             const fs = require('fs');
             const pkg = require('./package.json');
             const [org, repoName] = '${{ github.repository }}'.split('/');
             const unscoped = pkg.name.split('/').pop();
-            const out = {
-              package: pkg.name,
-              version: pkg.version,
-              repository: 'https://github.com/${{ github.repository }}',
-              npm: 'https://github.com/' + org + '/' + repoName + '/pkgs/npm/' + unscoped,
-              pages: 'https://' + org + '.github.io/' + repoName + '/',
-              changelog: 'https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md'
-            };
+
+            // Build intrinsic-fact fields first, omitting any that are
+            // absent from the package.json so the output stays clean across
+            // packages that don't populate every field.
+            const out = { name: pkg.name, version: pkg.version };
+            if (pkg.type) out.type = pkg.type;
+            if (pkg.license) out.license = pkg.license;
+            if (Array.isArray(pkg.keywords) && pkg.keywords.length) out.keywords = pkg.keywords;
+
+            // Canonical URLs derived from GitHub context + package name.
+            out.repository = 'https://github.com/${{ github.repository }}';
+            out.npm = 'https://github.com/' + org + '/' + repoName + '/pkgs/npm/' + unscoped;
+            out.pages = 'https://' + org + '.github.io/' + repoName + '/';
+            out.changelog = 'https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md';
+
             fs.mkdirSync('dist/docs', { recursive: true });
-            fs.writeFileSync('dist/docs/links.json', JSON.stringify(out, null, 2) + '\n');
+            fs.writeFileSync('dist/docs/metadata.json', JSON.stringify(out, null, 2) + '\n');
           "
 
       - name: Publish
