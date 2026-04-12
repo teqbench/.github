@@ -1,0 +1,73 @@
+# ─────────────────────────────────────────────────────────────
+# Docs Deploy — Reusable Workflow (Storybook → GitHub Pages)
+# ─────────────────────────────────────────────────────────────
+# Builds the consumer-facing documentation Storybook and deploys it to
+# GitHub Pages. Called by thin caller workflows in each consuming repo
+# on push to main. All secrets are passed via `secrets: inherit`.
+#
+# Prerequisites in the consuming repo:
+#   - Settings → Pages → Source: GitHub Actions
+#   - `npm run build-storybook:docs` produces `storybook-docs-static/`
+# ─────────────────────────────────────────────────────────────
+
+name: Docs Deploy (Reusable)
+
+on:
+    workflow_call:
+
+permissions: {}
+
+concurrency:
+    group: pages-${{ github.repository }}
+    cancel-in-progress: false
+
+jobs:
+    build:
+        name: Build Docs Storybook
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        permissions:
+            contents: read
+            packages: read
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+
+            - name: Setup Node
+              uses: actions/setup-node@v6
+              with:
+                  node-version-file: ".nvmrc"
+                  registry-url: "https://npm.pkg.github.com"
+                  scope: "@teqbench"
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Build Docs Storybook
+              run: npm run build-storybook:docs
+
+            - name: Upload Pages artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: storybook-docs-static
+
+    deploy:
+        name: Deploy to GitHub Pages
+        needs: build
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        steps:
+            - name: Deploy
+              id: deployment
+              uses: actions/deploy-pages@v4
