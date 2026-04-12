@@ -69,6 +69,76 @@ jobs:
       - name: Build
         run: npm run build
 
+      # ── Documentation artifacts (written into dist/docs/ pre-publish) ──
+      # These three files ride along in the published tarball so consumers
+      # (teqbench.website, the tbx-readme-author skill) can read them from
+      # node_modules at build time, version-aligned with the installed release.
+
+      - name: Generate docs/api.json (API Extractor)
+        run: |
+          # Shared api-extractor config, parameterized by package name via
+          # the <unscopedPackageName> macro. Works for any @teqbench package
+          # built with ng-packagr under the standard naming convention.
+          cat > api-extractor.generated.json <<'EOF'
+          {
+            "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+            "projectFolder": ".",
+            "mainEntryPointFilePath": "<projectFolder>/dist/types/teqbench-<unscopedPackageName>.d.ts",
+            "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.json" },
+            "apiReport": { "enabled": false },
+            "docModel": {
+              "enabled": true,
+              "apiJsonFilePath": "<projectFolder>/dist/docs/api.json"
+            },
+            "dtsRollup": { "enabled": false },
+            "tsdocMetadata": { "enabled": false },
+            "messages": {
+              "compilerMessageReporting": { "default": { "logLevel": "warning" } },
+              "extractorMessageReporting": {
+                "default": { "logLevel": "warning" },
+                "ae-missing-release-tag": { "logLevel": "none" }
+              },
+              "tsdocMessageReporting": { "default": { "logLevel": "warning" } }
+            }
+          }
+          EOF
+          npx --yes @microsoft/api-extractor@7.58.2 run --local --config api-extractor.generated.json
+          rm api-extractor.generated.json
+
+      - name: Generate docs/compatibility.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = require('./package.json');
+            const out = {
+              package: pkg.name,
+              version: pkg.version,
+              engines: pkg.engines ?? {},
+              peerDependencies: pkg.peerDependencies ?? {}
+            };
+            fs.mkdirSync('dist/docs', { recursive: true });
+            fs.writeFileSync('dist/docs/compatibility.json', JSON.stringify(out, null, 2) + '\n');
+          "
+
+      - name: Generate docs/links.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = require('./package.json');
+            const [org, repoName] = '${{ github.repository }}'.split('/');
+            const unscoped = pkg.name.split('/').pop();
+            const out = {
+              package: pkg.name,
+              version: pkg.version,
+              repository: 'https://github.com/${{ github.repository }}',
+              npm: 'https://github.com/' + org + '/' + repoName + '/pkgs/npm/' + unscoped,
+              pages: 'https://' + org + '.github.io/' + repoName + '/',
+              changelog: 'https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md'
+            };
+            fs.mkdirSync('dist/docs', { recursive: true });
+            fs.writeFileSync('dist/docs/links.json', JSON.stringify(out, null, 2) + '\n');
+          "
+
       - name: Publish
         run: npm publish ./dist
         env:
