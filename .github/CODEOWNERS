@@ -1,0 +1,9 @@
+# TeqBench organization-wide default code owners.
+#
+# This file lives in the org-default .github repository and applies only
+# to this repository's own contents. Consuming repositories that need
+# their own CODEOWNERS must define one in their own repo.
+#
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @teqbench/engineering-team
