@@ -128,38 +128,38 @@ jobs:
           # 1. Coverage Logic
           COV_PATH="./coverage/coverage-summary.json"
           if [ -f "$COV_PATH" ]; then
-            COV_PCT=$(jq -r '.total.lines.pct' $COV_PATH)
+            COV_PCT=$(jq -r '.total.lines.pct' "$COV_PATH")
             if [ "$COV_PCT" = "Unknown" ] || [ "$COV_PCT" = "null" ] || [ -z "$COV_PCT" ]; then
-              echo "COV_MSG=N/A" >> $GITHUB_ENV
-              echo "COV_COLOR=lightgrey" >> $GITHUB_ENV
+              echo "COV_MSG=N/A" >> "$GITHUB_ENV"
+              echo "COV_COLOR=lightgrey" >> "$GITHUB_ENV"
             else
-              echo "COV_MSG=${COV_PCT}%" >> $GITHUB_ENV
+              echo "COV_MSG=${COV_PCT}%" >> "$GITHUB_ENV"
               if (( $(echo "$COV_PCT < ${{ inputs.coverage-threshold }}" | bc -l) )); then
-                echo "COV_COLOR=yellow" >> $GITHUB_ENV
+                echo "COV_COLOR=yellow" >> "$GITHUB_ENV"
               else
-                echo "COV_COLOR=brightgreen" >> $GITHUB_ENV
+                echo "COV_COLOR=brightgreen" >> "$GITHUB_ENV"
               fi
             fi
           else
-            echo "COV_MSG=unknown" >> $GITHUB_ENV
-            echo "COV_COLOR=yellow" >> $GITHUB_ENV
+            echo "COV_MSG=unknown" >> "$GITHUB_ENV"
+            echo "COV_COLOR=yellow" >> "$GITHUB_ENV"
           fi
 
           # 2. Test Results Logic
           TEST_PATH="./report.json"
           if [ -f "$TEST_PATH" ]; then
-            PASSED=$(jq '.numPassedTests // 0' $TEST_PATH)
-            TOTAL=$(jq '.numTotalTests // 0' $TEST_PATH)
-            FAILED=$(jq '.numFailedTests // 0' $TEST_PATH)
+            PASSED=$(jq '.numPassedTests // 0' "$TEST_PATH")
+            TOTAL=$(jq '.numTotalTests // 0' "$TEST_PATH")
+            FAILED=$(jq '.numFailedTests // 0' "$TEST_PATH")
 
             [ -z "$PASSED" ] && PASSED=0
             [ -z "$TOTAL" ] && TOTAL=0
 
-            echo "TEST_MSG=${PASSED}/${TOTAL} passed" >> $GITHUB_ENV
+            echo "TEST_MSG=${PASSED}/${TOTAL} passed" >> "$GITHUB_ENV"
             if [ "$FAILED" -gt 0 ] || [ "$TOTAL" -eq 0 ]; then
-              echo "TEST_COLOR=red" >> $GITHUB_ENV
+              echo "TEST_COLOR=red" >> "$GITHUB_ENV"
             else
-              echo "TEST_COLOR=brightgreen" >> $GITHUB_ENV
+              echo "TEST_COLOR=brightgreen" >> "$GITHUB_ENV"
             fi
           else
             echo "❌ Error: report.json NOT found at $TEST_PATH"
@@ -172,7 +172,7 @@ jobs:
           else
             VERSION=$(jq -r '.version' package.json)
           fi
-          echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PKG_VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Check README version drift
         run: |

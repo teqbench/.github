@@ -45,7 +45,7 @@ jobs:
           else
             VERSION="unknown"
           fi
-          echo "PKG_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PKG_VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Push Version Badge
         if: github.event_name == 'push'
