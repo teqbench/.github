@@ -71,7 +71,7 @@ Edits to these files propagate silently to every consuming repo without a CI run
 
 | Secret | Purpose |
 |---|---|
-| `APP_ID` | teqbench-automation GitHub App ID |
+| `APP_CLIENT_ID` | teqbench-automation GitHub App Client ID (replaces deprecated `APP_ID`) |
 | `APP_PRIVATE_KEY` | teqbench-automation GitHub App private key |
 | `GIST_TOKEN` | Token for pushing badge data to gist |
 | `ANTHROPIC_API_KEY` | Anthropic API key for Claude Code |

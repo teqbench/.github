@@ -70,7 +70,7 @@ These are set at the **organization level** so all repos inherit them:
 
 | Secret | Purpose |
 | :--- | :--- |
-| `APP_ID` | teqbench&#8209;automation GitHub App ID |
+| `APP_CLIENT_ID` | teqbench&#8209;automation GitHub App Client ID (replaces deprecated `APP_ID`) |
 | `APP_PRIVATE_KEY` | teqbench&#8209;automation GitHub App private key |
 | `GIST_TOKEN` | Token for pushing badge data to gist |
 | `ANTHROPIC_API_KEY` | Anthropic API key for Claude Code |
