@@ -14,9 +14,13 @@ on:
         description: "Gist ID for badge storage (repo-specific)"
         required: true
         type: string
+      coverage-threshold:
+        description: "Minimum line-coverage percentage for a green badge. Below this the badge renders yellow."
+        required: false
+        type: number
+        default: 80
 
 env:
-  GIST_OWNER: teqbench-shields-bot
   REPO_NAME: ${{ github.event.repository.name }}
 
 permissions: {}
@@ -41,22 +45,21 @@ jobs:
 
       - name: Generate app token
         id: app-token
-        if: github.actor != 'dependabot[bot]'
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: teqbench
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          submodules: ${{ github.actor != 'dependabot[bot]' }}
-          token: ${{ steps.app-token.outputs.token || github.token }}
+          submodules: true
+          token: ${{ steps.app-token.outputs.token }}
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://npm.pkg.github.com"
@@ -70,9 +73,9 @@ jobs:
 
       - name: Audit dependencies
         run: |
-          # Fetch the centralized allow-list from the .github repo (private, needs auth)
+          # Fetch the centralized allow-list from the .github repo.
           ALLOW_LIST=$(curl -sf \
-            -H "Authorization: token ${{ steps.app-token.outputs.token || github.token }}" \
+            -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
             -H "Accept: application/vnd.github.v3.raw" \
             "https://api.github.com/repos/teqbench/.github/contents/.github/audit-allow-list.json?ref=main" \
             || echo "[]")
@@ -129,7 +132,7 @@ jobs:
               echo "COV_COLOR=lightgrey" >> $GITHUB_ENV
             else
               echo "COV_MSG=${COV_PCT}%" >> $GITHUB_ENV
-              if (( $(echo "$COV_PCT < 80" | bc -l) )); then
+              if (( $(echo "$COV_PCT < ${{ inputs.coverage-threshold }}" | bc -l) )); then
                 echo "COV_COLOR=yellow" >> $GITHUB_ENV
               else
                 echo "COV_COLOR=brightgreen" >> $GITHUB_ENV
@@ -195,7 +198,7 @@ jobs:
 
       - name: Push Coverage Badge
         if: always() && github.event_name == 'push' && env.COV_MSG != ''
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -207,7 +210,7 @@ jobs:
 
       - name: Push Tests Badge
         if: always() && github.event_name == 'push' && env.TEST_MSG != ''
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -219,7 +222,7 @@ jobs:
 
       - name: Push Build Status Badge
         if: always() && github.event_name == 'push'
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -231,7 +234,7 @@ jobs:
 
       - name: Push Build Number Badge
         if: always() && github.event_name == 'push'
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -243,7 +246,7 @@ jobs:
 
       - name: Push Version Badge
         if: always() && github.event_name == 'push'
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
