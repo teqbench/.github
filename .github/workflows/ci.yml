@@ -37,9 +37,11 @@ jobs:
     steps:
       - name: Enforce source branch for main
         if: github.event_name == 'pull_request' && github.base_ref == 'main'
+        env:
+          HEAD_REF: ${{ github.head_ref }}
         run: |
-          if [[ ! "${{ github.head_ref }}" =~ ^(release/|hotfix/|release-please--) ]]; then
-            echo "::error::PRs to main must come from release/*, hotfix/*, or release-please branches, not '${{ github.head_ref }}'"
+          if [[ ! "$HEAD_REF" =~ ^(release/|hotfix/|release-please--) ]]; then
+            echo "::error::PRs to main must come from release/*, hotfix/*, or release-please branches, not '$HEAD_REF'"
             exit 1
           fi
 
