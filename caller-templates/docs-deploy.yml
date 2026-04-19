@@ -1,0 +1,22 @@
+# Thin caller — delegates to the org-wide reusable Docs Deploy workflow.
+# See: https://github.com/teqbench/.github/.github/workflows/docs-deploy.yml
+#
+# Prerequisites in the consuming repo:
+#   - Settings → Pages → Source: GitHub Actions
+#   - `npm run build-storybook:docs` produces `storybook-docs-static/`
+
+name: TeqBench Package - Docs Deploy Workflow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: docs-deploy-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    uses: teqbench/.github/.github/workflows/docs-deploy.yml@main
+    secrets: inherit

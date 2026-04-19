@@ -62,7 +62,7 @@ Caller templates are available in the `caller-templates/` directory.
 2. Add thin caller workflows referencing the org reusable workflows
 3. Add the repo name to the `repositories` array in `renovate-config.js` (if it has npm dependencies)
 4. Set the `GIST_ID` repo variable to the shared gist ID (`a69600f4ed4ebed89ffb35d808e05eb4`)
-5. Ensure the repo has access to org&#8209;level secrets (automatic for private repos)
+5. Verify the repo has access to the org&#8209;level secrets. In **Organization Settings → Secrets and variables → Actions**, confirm each required secret is scoped to include this repository (either via "All repositories" or an explicit list)
 
 ## Required Secrets
 
