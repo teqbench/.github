@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────
+# Validate — Self-CI for this repository
+# ─────────────────────────────────────────────────────────────
+# Runs actionlint against the reusable workflows and caller
+# templates. Catches YAML syntax errors, unknown fields, bad
+# expression references, and shell-script bugs before changes
+# merge to main and propagate to every consuming repo.
+# ─────────────────────────────────────────────────────────────
+
+name: Validate
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions: {}
+
+jobs:
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Run actionlint on reusable workflows and caller templates
+        uses: raven-actions/actionlint@205b530c5d9fa8f44ae9ed59f341a0db994aa6f8 # v2
+        with:
+          files: ".github/workflows/*.yml caller-templates/*.yml"

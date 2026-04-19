@@ -14,6 +14,7 @@ module.exports = {
 
   // ── Repo list (add new repos here) ───────────────────────────
   repositories: [
+    "teqbench/.github",
     "teqbench/teqbench.dev.templates.tbx-package",
     "teqbench/tbx-models",
     "teqbench/tbx-ngx-errors",
@@ -36,6 +37,21 @@ module.exports = {
 
   // ── Schedule ─────────────────────────────────────────────────
   schedule: ["before 9am on Monday"],
+
+  // ── Custom managers ──────────────────────────────────────────
+  // Track inline `npx --yes @microsoft/api-extractor@<version>` pins inside
+  // release.yml so Renovate can surface version bumps for it. Without this,
+  // the version is invisible to all standard managers.
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: ["/\\.github/workflows/release\\.yml$/"],
+      matchStrings: [
+        "npx --yes (?<depName>@microsoft/api-extractor)@(?<currentValue>[\\d.]+)",
+      ],
+      datasourceTemplate: "npm",
+    },
+  ],
 
   // ── Package rules ────────────────────────────────────────────
   packageRules: [
@@ -73,15 +89,20 @@ module.exports = {
       groupName: "typescript",
     },
 
-    // GitHub Actions: separate PR with CI prefix
+    // GitHub Actions: separate PR with CI prefix.
+    //
+    // `pinDigests` enforces the `@<sha> # <tag>` pattern for all third-party
+    // actions across teqbench repos — Renovate will add missing digests on
+    // first scan and keep them current on subsequent runs.
     {
       matchManagers: ["github-actions"],
+      pinDigests: true,
       groupName: "github-actions",
       commitMessagePrefix: "chore(ci):",
       labels: ["dependencies", "ci"],
     },
 
-    // ── Version restrictions (carried over from Dependabot) ────
+    // ── Version restrictions ──────────────────────────────────
     // ESLint: ignore majors until Angular ESLint supports them
     {
       matchPackageNames: ["eslint"],
