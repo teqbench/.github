@@ -8,48 +8,67 @@ TeqBench is an open-source collection of [TypeScript ↗](https://www.typescript
 
 Foundational contracts shared across every `@teqbench` package.
 
-| Repository | Description |
-| :--- | :--- |
-| [tbx-models ↗](https://github.com/teqbench/tbx-models) | Generic domain entity interface (`TbxDomainEntityModel<TId>`) consumed by every `@teqbench` package that persists or exchanges entities. |
+<dl>
+  <dt><a href="https://github.com/teqbench/tbx-models">tbx-models ↗</a></dt>
+  <dd>Generic domain entity interface (<code>TbxDomainEntityModel&lt;TId&gt;</code>) consumed by every <code>@teqbench</code> package that persists or exchanges entities.</dd>
+</dl>
 
 ### Angular Infrastructure
 
 Cross-cutting Angular services and interceptors — error handling, HTTP resilience, observability.
 
-| Repository | Description |
-| :--- | :--- |
-| [tbx-ngx-errors ↗](https://github.com/teqbench/tbx-ngx-errors) | Multi-layer error handling pipeline: HTTP interceptor, global error handler, and manual logging utility unified through a swappable logger abstraction. |
-| [tbx-ngx-http ↗](https://github.com/teqbench/tbx-ngx-http) | Resilient base HTTP service with automatic GET retries, exponential backoff, configurable timeouts, and typed request options. |
+<dl>
+  <dt><a href="https://github.com/teqbench/tbx-ngx-errors">tbx-ngx-errors ↗</a></dt>
+  <dd>Multi-layer error handling pipeline: HTTP interceptor, global error handler, and manual logging utility unified through a swappable logger abstraction.</dd>
+
+  <dt><a href="https://github.com/teqbench/tbx-ngx-http">tbx-ngx-http ↗</a></dt>
+  <dd>Resilient base HTTP service with automatic GET retries, exponential backoff, configurable timeouts, and typed request options.</dd>
+</dl>
 
 ### Angular Material Icon System
 
 Abstract icon service contracts and severity-aware resolvers that let you swap SVG, font-ligature, or custom icon strategies without changing consuming code.
 
-| Repository | Description |
-| :--- | :--- |
-| [tbx-mat-icons ↗](https://github.com/teqbench/tbx-mat-icons) | Abstract icon service contracts for Angular Material with two strategy bases: SVG (via `MatIconRegistry`) and font-ligature. |
-| [tbx-mat-severity-theme ↗](https://github.com/teqbench/tbx-mat-severity-theme) | Foundation for severity theming: severity enum, resolver contract, abstract icon service bases, default SVG/font icon sets, shared SCSS colour tokens, and DI configuration. |
+<dl>
+  <dt><a href="https://github.com/teqbench/tbx-mat-icons">tbx-mat-icons ↗</a></dt>
+  <dd>Abstract icon service contracts for Angular Material with two strategy bases: SVG (via <code>MatIconRegistry</code>) and font-ligature.</dd>
+
+  <dt><a href="https://github.com/teqbench/tbx-mat-severity-theme">tbx-mat-severity-theme ↗</a></dt>
+  <dd>Foundation for severity theming: severity enum, resolver contract, abstract icon service bases, default SVG/font icon sets, shared SCSS colour tokens, and DI configuration.</dd>
+</dl>
 
 ### Angular Material UI Components
 
 Opinionated, severity-aware UI primitives.
 
-| Repository | Description |
-| :--- | :--- |
-| [tbx-mat-notifications ↗](https://github.com/teqbench/tbx-mat-notifications) | Angular notification service built on Material snackbar with severity methods, FIFO queue, signal-based state, optional action button, countdown bar, and pluggable icons. |
-| [tbx-mat-banners ↗](https://github.com/teqbench/tbx-mat-banners) | Banner component and service with severity-leveled display, action groups (buttons and form controls), overlay or inline modes, and animations. |
-| [tbx-mat-dialogs ↗](https://github.com/teqbench/tbx-mat-dialogs) | Dialog service on Material dialog with typed methods for info, warning, error, confirm, and input dialogs; emphasis-driven styling; pluggable icon resolution. |
+<dl>
+  <dt><a href="https://github.com/teqbench/tbx-mat-notifications">tbx-mat-notifications ↗</a></dt>
+  <dd>Angular notification service built on Material snackbar with severity methods, FIFO queue, signal-based state, optional action button, countdown bar, and pluggable icons.</dd>
+
+  <dt><a href="https://github.com/teqbench/tbx-mat-banners">tbx-mat-banners ↗</a></dt>
+  <dd>Banner component and service with severity-leveled display, action groups (buttons and form controls), overlay or inline modes, and animations.</dd>
+
+  <dt><a href="https://github.com/teqbench/tbx-mat-dialogs">tbx-mat-dialogs ↗</a></dt>
+  <dd>Dialog service on Material dialog with typed methods for info, warning, error, confirm, and input dialogs; emphasis-driven styling; pluggable icon resolution.</dd>
+</dl>
 
 ### Developer Tooling
 
 Scaffolding, shared workflows, and productivity tooling for contributors and consumers of the stack.
 
-| Repository | Description |
-| :--- | :--- |
-| [.github ↗](https://github.com/teqbench/.github) | Central reusable [GitHub Actions ↗](https://github.com/features/actions) workflows ([CI ↗](https://github.com/teqbench/.github/blob/main/.github/workflows/ci.yml), release, docs deploy, sync), [Renovate ↗](https://docs.renovatebot.com) configuration, and organization-wide community health files. |
-| [teqbench.dev.templates.tbx-package ↗](https://github.com/teqbench/teqbench.dev.templates.tbx-package) | Template repository for scaffolding new `@teqbench` packages with build, lint, test, format, and release plumbing already wired in. |
-| [teqbench.dev.misc-skills ↗](https://github.com/teqbench/teqbench.dev.misc-skills) | Reusable [Claude Code ↗](https://claude.com/claude-code) Agent Skills covering documentation, code review, link verification, module boundaries, and TeqBench conventions. |
-| [teqbench.dev.shared-skills ↗](https://github.com/teqbench/teqbench.dev.shared-skills) | Bundles [Anthropic ↗](https://www.anthropic.com) skills, Angular skills, and `teqbench.dev.misc-skills` into a single installable surface for `.claude/skills/`. |
+<dl>
+  <dt><a href="https://github.com/teqbench/.github">.github ↗</a></dt>
+  <dd>Central reusable <a href="https://github.com/features/actions">GitHub Actions ↗</a> workflows (<a href="https://github.com/teqbench/.github/blob/main/.github/workflows/ci.yml">CI ↗</a>, release, docs deploy, sync), <a href="https://docs.renovatebot.com">Renovate ↗</a> configuration, and organization-wide community health files.</dd>
+
+  <dt><a href="https://github.com/teqbench/teqbench.dev.templates.tbx-package">teqbench.dev.templates.tbx-package ↗</a></dt>
+  <dd>Template repository for scaffolding new <code>@teqbench</code> packages with build, lint, test, format, and release plumbing already wired in.</dd>
+
+  <dt><a href="https://github.com/teqbench/teqbench.dev.misc-skills">teqbench.dev.misc-skills ↗</a></dt>
+  <dd>Reusable <a href="https://claude.com/claude-code">Claude Code ↗</a> Agent Skills covering documentation, code review, link verification, module boundaries, and TeqBench conventions.</dd>
+
+  <dt><a href="https://github.com/teqbench/teqbench.dev.shared-skills">teqbench.dev.shared-skills ↗</a></dt>
+  <dd>Bundles <a href="https://www.anthropic.com">Anthropic ↗</a> skills, Angular skills, and <code>teqbench.dev.misc-skills</code> into a single installable surface for <code>.claude/skills/</code>.</dd>
+</dl>
 
 ## Architecture at a Glance
 
