@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────
-# Webapp CI — Reusable Workflow (Lint, Typecheck, Audit)
+# Webapp CI — Reusable Workflow (Lint & Typecheck)
 # ─────────────────────────────────────────────────────────────
 # Tailored for non-package consumers (Vercel-deployed webapps).
 # Runs typecheck, lint, and the org audit gate; does NOT run
@@ -27,7 +27,7 @@ permissions: {}
 
 jobs:
   check:
-    name: Lint, Typecheck & Audit
+    name: Lint & Typecheck
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
