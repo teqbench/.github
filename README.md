@@ -8,7 +8,7 @@ Central CI/CD workflows and configuration for the TeqBench organization.
 | :--- | :--- | :--- |
 | `ci.yml` | Lint, typecheck, test, build, badges | Node.js package repos |
 | `noop-ci.yml` | No&#8209;op CI with version badge | Non&#8209;compilable repos (skill libraries, docs) |
-| `release.yml` | Release Please versioning + publish to GitHub Packages | All repos |
+| `release.yml` | Release Please versioning + (optional) publish to GitHub Packages | All repos (callers pass `publish: false` to opt out of publish) |
 | `sync.yml` | Merge main back into dev after release | All repos |
 | `claude.yml` | Claude Code integration (@claude triggers) | All repos |
 | `dep-compat-check.yml` | Dependency compatibility tracking | Node.js package repos |

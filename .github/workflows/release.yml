@@ -9,6 +9,11 @@ name: Release (Reusable)
 
 on:
   workflow_call:
+    inputs:
+      publish:
+        description: "Whether to run the publish job after release-please. Set to false for repos that use release-please for tagging/CHANGELOG only and have nothing to publish (e.g. .github, webapps deployed via Vercel, skill bundles)."
+        type: boolean
+        default: true
 
 permissions: {}
 
@@ -42,7 +47,7 @@ jobs:
   publish:
     name: Publish to GitHub Packages
     needs: release
-    if: needs.release.outputs.release_created == 'true'
+    if: needs.release.outputs.release_created == 'true' && inputs.publish
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

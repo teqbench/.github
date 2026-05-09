@@ -1,0 +1,25 @@
+# Self-thin-caller — runs the org-wide reusable Release workflow against
+# this repo. Named with the self- prefix to distinguish it from the
+# reusable release.yml that lives in this same directory.
+#
+# Uses publish: false because this repo has no npm package to publish —
+# release-please is used solely for tagging and CHANGELOG generation, so
+# downstream consumer thin callers can pin reusable workflow refs to a
+# tagged version (e.g. @v2.6.0) instead of @main or a SHA.
+
+name: TeqBench .github - Release Workflow
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: teqbench/.github/.github/workflows/release.yml@main
+    secrets: inherit
+    with:
+      publish: false
