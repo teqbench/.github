@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.9.2](https://github.com/teqbench/.github/compare/v2.9.1...v2.9.2) (2026-05-09)
+
+
+### Bug Fixes
+
+* **renovate:** disable pinDigests for teqbench/.github reusable workflows ([46b91da](https://github.com/teqbench/.github/commit/46b91daf4162beb1c8d21578c544e33a8497ea13))
+* **renovate:** disable pinDigests for teqbench/.github reusable workflows ([794e8ac](https://github.com/teqbench/.github/commit/794e8acb27fba86801f4e81e26a6d47df1c3aa57))
+
 ## [2.9.1](https://github.com/teqbench/.github/compare/v2.9.0...v2.9.1) (2026-05-09)
 
 
