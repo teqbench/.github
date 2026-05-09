@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.1](https://github.com/teqbench/.github/compare/v2.8.0...v2.8.1) (2026-05-09)
+
+
+### Bug Fixes
+
+* **ci:** export NPM_TOKEN alongside NODE_AUTH_TOKEN for npm steps ([94cfa19](https://github.com/teqbench/.github/commit/94cfa193e9080f0e5e78630b81f6091e1881d27d))
+* **ci:** export NPM_TOKEN alongside NODE_AUTH_TOKEN for npm steps ([9ccb5a2](https://github.com/teqbench/.github/commit/9ccb5a2504ad3d8614f53290699758030124fc84))
+
 ## [2.8.0](https://github.com/teqbench/.github/compare/v2.7.2...v2.8.0) (2026-05-09)
 
 
