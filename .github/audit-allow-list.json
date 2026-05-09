@@ -19,5 +19,6 @@
   { "id": "GHSA-v2wj-q39q-566r", "package": "vite", "reason": "high, server.fs.deny bypass via queries, dev-server only" },
   { "id": "GHSA-p9ff-h696-f583", "package": "vite", "reason": "high, arbitrary file read via dev server WebSocket, dev-server only" },
   { "id": "GHSA-q3j6-qgpj-74h6", "package": "fast-uri", "reason": "high, path traversal via percent-encoded dot segments, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.1" },
-  { "id": "GHSA-v39h-62p7-jpjc", "package": "fast-uri", "reason": "high, host confusion via percent-encoded authority delimiters, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.2" }
+  { "id": "GHSA-v39h-62p7-jpjc", "package": "fast-uri", "reason": "high, host confusion via percent-encoded authority delimiters, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.2" },
+  { "id": "GHSA-fv7c-fp4j-7gwp", "package": "@babel/plugin-transform-modules-systemjs", "reason": "high, arbitrary code execution when compiling untrusted input, build-time only via @babel/preset-env (analogjs vite-plugin-angular/angular-devkit), no untrusted code compiled in our pipeline, patched in 7.29.4" }
 ]
