@@ -20,5 +20,8 @@
   { "id": "GHSA-p9ff-h696-f583", "package": "vite", "reason": "high, arbitrary file read via dev server WebSocket, dev-server only" },
   { "id": "GHSA-q3j6-qgpj-74h6", "package": "fast-uri", "reason": "high, path traversal via percent-encoded dot segments, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.1" },
   { "id": "GHSA-v39h-62p7-jpjc", "package": "fast-uri", "reason": "high, host confusion via percent-encoded authority delimiters, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.2" },
-  { "id": "GHSA-fv7c-fp4j-7gwp", "package": "@babel/plugin-transform-modules-systemjs", "reason": "high, arbitrary code execution when compiling untrusted input, build-time only via @babel/preset-env (analogjs vite-plugin-angular/angular-devkit), no untrusted code compiled in our pipeline, patched in 7.29.4" }
+  { "id": "GHSA-fv7c-fp4j-7gwp", "package": "@babel/plugin-transform-modules-systemjs", "reason": "high, arbitrary code execution when compiling untrusted input, build-time only via @babel/preset-env (analogjs vite-plugin-angular/angular-devkit), no untrusted code compiled in our pipeline, patched in 7.29.4" },
+  { "id": "GHSA-rf6f-7fwh-wjgh", "package": "flatted", "reason": "high, prototype pollution via parse() __proto__ access, build-time only via eslint, patched in 3.4.2" },
+  { "id": "GHSA-23c5-xmqv-rm74", "package": "minimatch", "reason": "high, ReDoS via nested *() extglobs, build-time only via dev tooling, patched in 10.2.3 / 9.0.7 / 8.0.6 / 7.4.8 / 6.2.2 / 5.1.8 / 4.2.5 / 3.1.4" },
+  { "id": "GHSA-7r86-cg39-jmmj", "package": "minimatch", "reason": "high, ReDoS via multiple ** globstars, build-time only via dev tooling, patched in 10.2.3 / 9.0.7 / 8.0.6 / 7.4.8 / 6.2.2 / 5.1.8 / 4.2.5 / 3.1.3" }
 ]
