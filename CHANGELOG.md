@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.1](https://github.com/teqbench/.github/compare/v2.9.0...v2.9.1) (2026-05-09)
+
+
+### Bug Fixes
+
+* **renovate:** correct typo and complete repositories[] array ([6d84d8b](https://github.com/teqbench/.github/commit/6d84d8b57a1f372c7b020ab10369245a25d476bd))
+
 ## [2.9.0](https://github.com/teqbench/.github/compare/v2.8.1...v2.9.0) (2026-05-09)
 
 
