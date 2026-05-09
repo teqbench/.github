@@ -44,6 +44,11 @@ on:
         required: false
         type: boolean
         default: true
+      build:
+        description: "Whether to run `npm run build`. Set to false for callers without a build script (e.g. the .github org config repo). Only applies to the build step itself; the audit step always runs."
+        required: false
+        type: boolean
+        default: true
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
@@ -230,6 +235,7 @@ jobs:
           exit $FAIL
 
       - name: Build
+        if: inputs.build
         run: npm run build
 
       # ── Badge data → Gist ──────────────────────────────────────
