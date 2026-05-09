@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   ci:
-    uses: teqbench/.github/.github/workflows/ci.yml@v2.9.1
+    uses: teqbench/.github/.github/workflows/ci.yml@v2.9.3
     with:
       gist-id: ${{ vars.GIST_ID }}
       npm: false
