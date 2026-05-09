@@ -44,6 +44,16 @@ on:
         required: false
         type: boolean
         default: true
+      build:
+        description: "Whether to run `npm run build`. Set to false for callers without a build script. Has no effect when `npm` is false."
+        required: false
+        type: boolean
+        default: true
+      npm:
+        description: "Whether to run any npm-dependent steps (setup-node, npm ci, audit, format, typecheck, lint, test, build, README drift check). Set to false for callers without a package.json (e.g. the .github org config repo). When false, only the source-branch enforcement runs and the build-status / build-number badges are pushed; nothing else."
+        required: false
+        type: boolean
+        default: true
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
@@ -86,6 +96,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node
+        if: inputs.npm
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version-file: ".nvmrc"
@@ -94,6 +105,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
+        if: inputs.npm
         run: npm ci
         env:
           # Both names point at the same token. NODE_AUTH_TOKEN is the
@@ -105,6 +117,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Audit dependencies
+        if: inputs.npm
         run: |
           # Fetch the centralized allow-list from the .github repo.
           ALLOW_LIST=$(curl -sf \
@@ -141,19 +154,19 @@ jobs:
           echo "✅ Audit passed ($SUPPRESSED known advisories suppressed)"
 
       - name: Check formatting
-        if: inputs.format
+        if: inputs.npm && inputs.format
         run: npm run format:check
 
       - name: TypeScript check
-        if: inputs.typecheck
+        if: inputs.npm && inputs.typecheck
         run: npm run typecheck
 
       - name: Lint
-        if: inputs.lint
+        if: inputs.npm && inputs.lint
         run: npm run lint
 
       - name: Run Tests with Coverage
-        if: inputs.test
+        if: inputs.npm && inputs.test
         run: npx vitest run --coverage --coverage.reporter=json-summary --reporter=default --reporter=json --outputFile=report.json
 
       - name: Evaluate Metrics
@@ -210,7 +223,7 @@ jobs:
           echo "PKG_VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Check README version drift
-        if: inputs.check-readme-drift
+        if: inputs.npm && inputs.check-readme-drift
         run: |
           TS_PKG=$(jq -r '.devDependencies.typescript' package.json)
           NODE_PKG=$(jq -r '.engines.node' package.json)
@@ -230,6 +243,7 @@ jobs:
           exit $FAIL
 
       - name: Build
+        if: inputs.npm && inputs.build
         run: npm run build
 
       # ── Badge data → Gist ──────────────────────────────────────

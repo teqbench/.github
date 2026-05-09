@@ -1,0 +1,32 @@
+# Self-thin-caller — runs the org-wide reusable CI workflow against
+# this repo so the org-level "ci / Lint, Typecheck & Test" required
+# status check is satisfied here too. This repo has no package.json,
+# so the entire npm chain (setup-node, npm ci, audit, lint, etc.) is
+# skipped via `npm: false`. Only the source-branch enforcement and
+# the build-status / build-number / version badge pushes actually
+# run; the job still emits the required check name from the reusable's
+# job definition.
+#
+# Pinned to the SHA that introduces the npm toggle (since @main
+# doesn't yet have it until this PR merges + carries to main).
+# Repin to the v2.8.2 tag in a follow-up once tagged.
+
+name: TeqBench .github - CI Workflow
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ci-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: teqbench/.github/.github/workflows/ci.yml@2f35eef0730f384f5f988b2dba672c489e36991e
+    with:
+      gist-id: ${{ vars.GIST_ID }}
+      npm: false
+    secrets: inherit
