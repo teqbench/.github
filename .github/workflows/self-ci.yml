@@ -1,0 +1,35 @@
+# Self-thin-caller — runs the org-wide reusable CI workflow against
+# this repo so the org-level "ci / Lint, Typecheck & Test" required
+# status check is satisfied here too. This repo has no package.json,
+# no test suite, no build, and no compatibility table — so every
+# step toggle is off; only the audit step actually runs.
+#
+# Pinned to a SHA on the same PR/branch that introduces the build
+# toggle (since @main doesn't yet have the toggle until this PR
+# merges + carries to main). Repin to the v2.8.2 tag in a follow-up
+# once tagged.
+
+name: TeqBench .github - CI Workflow
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ci-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: teqbench/.github/.github/workflows/ci.yml@fa5d85e374fe886bb7380d786fbbc67063d058a1
+    with:
+      gist-id: ${{ vars.GIST_ID }}
+      check-readme-drift: false
+      typecheck: false
+      lint: false
+      format: false
+      test: false
+      build: false
+    secrets: inherit
