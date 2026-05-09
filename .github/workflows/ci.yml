@@ -24,6 +24,26 @@ on:
         required: false
         type: boolean
         default: true
+      typecheck:
+        description: "Whether to run `npm run typecheck`. Set to false for callers without a typecheck script."
+        required: false
+        type: boolean
+        default: true
+      lint:
+        description: "Whether to run `npm run lint`. Set to false for callers whose code does not pass lint, or that have no lint configured."
+        required: false
+        type: boolean
+        default: true
+      format:
+        description: "Whether to run `npm run format:check`. Set to false for callers whose code is not formatted with Prettier."
+        required: false
+        type: boolean
+        default: true
+      test:
+        description: "Whether to run tests with coverage. Set to false for callers without a test suite (e.g. webapps deployed via Vercel). When false, the test and coverage badges are also skipped."
+        required: false
+        type: boolean
+        default: true
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
@@ -115,15 +135,19 @@ jobs:
           echo "✅ Audit passed ($SUPPRESSED known advisories suppressed)"
 
       - name: Check formatting
+        if: inputs.format
         run: npm run format:check
 
       - name: TypeScript check
+        if: inputs.typecheck
         run: npm run typecheck
 
       - name: Lint
+        if: inputs.lint
         run: npm run lint
 
       - name: Run Tests with Coverage
+        if: inputs.test
         run: npx vitest run --coverage --coverage.reporter=json-summary --reporter=default --reporter=json --outputFile=report.json
 
       - name: Evaluate Metrics
@@ -205,7 +229,7 @@ jobs:
       # ── Badge data → Gist ──────────────────────────────────────
 
       - name: Push Coverage Badge
-        if: always() && github.event_name == 'push' && env.COV_MSG != ''
+        if: always() && github.event_name == 'push' && env.COV_MSG != '' && inputs.test
         uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
