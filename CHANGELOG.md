@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.0](https://github.com/teqbench/.github/compare/v2.7.2...v2.8.0) (2026-05-09)
+
+
+### Features
+
+* **ci:** add typecheck/lint/format/test toggles to ci.yml; remove webapp-ci.yml ([8c2c8a2](https://github.com/teqbench/.github/commit/8c2c8a2739d7de3df44d59fe616b414dad082717))
+* **ci:** add typecheck/lint/format/test toggles, remove webapp-ci.yml ([cf8591a](https://github.com/teqbench/.github/commit/cf8591ad4fb962b61791791b689e84b7d522ff6c))
+
 ## [2.7.2](https://github.com/teqbench/.github/compare/v2.7.1...v2.7.2) (2026-05-09)
 
 
