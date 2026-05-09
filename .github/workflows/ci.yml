@@ -61,7 +61,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://npm.pkg.github.com"
@@ -200,7 +200,7 @@ jobs:
 
       - name: Push Coverage Badge
         if: always() && github.event_name == 'push' && env.COV_MSG != ''
-        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+        uses: schneegans/dynamic-badges-action@0e50b8bad39e7e1afd3e4e9c2b7dd145fad07501 # v1.8.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -212,7 +212,7 @@ jobs:
 
       - name: Push Tests Badge
         if: always() && github.event_name == 'push' && env.TEST_MSG != ''
-        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+        uses: schneegans/dynamic-badges-action@0e50b8bad39e7e1afd3e4e9c2b7dd145fad07501 # v1.8.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -224,7 +224,7 @@ jobs:
 
       - name: Push Build Status Badge
         if: always() && github.event_name == 'push'
-        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+        uses: schneegans/dynamic-badges-action@0e50b8bad39e7e1afd3e4e9c2b7dd145fad07501 # v1.8.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -236,7 +236,7 @@ jobs:
 
       - name: Push Build Number Badge
         if: always() && github.event_name == 'push'
-        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+        uses: schneegans/dynamic-badges-action@0e50b8bad39e7e1afd3e4e9c2b7dd145fad07501 # v1.8.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
@@ -248,7 +248,7 @@ jobs:
 
       - name: Push Version Badge
         if: always() && github.event_name == 'push'
-        uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+        uses: schneegans/dynamic-badges-action@0e50b8bad39e7e1afd3e4e9c2b7dd145fad07501 # v1.8.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ inputs.gist-id }}
