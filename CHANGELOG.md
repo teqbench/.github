@@ -1,0 +1,36 @@
+# Changelog
+
+## [2.6.0](https://github.com/teqbench/.github/compare/v2.5.0...v2.6.0) (2026-05-09)
+
+
+### Features
+
+* add centralized reusable workflows and Renovate config ([41aa1ed](https://github.com/teqbench/.github/commit/41aa1ed18e86374cf2dd66c850016b5d510d77d3))
+* **ci:** add actionlint self-CI and docs-deploy caller template ([8b64c9b](https://github.com/teqbench/.github/commit/8b64c9bb76b66d84386a14fd3c99997f2a913efd))
+* **ci:** add centralized audit allow-list for known upstream advisories ([559f716](https://github.com/teqbench/.github/commit/559f716c07e6340217880f620c30fc8036fc7375))
+* **ci:** add check-readme-drift input to opt out ([10497d9](https://github.com/teqbench/.github/commit/10497d9bebbc2d58875fba591f1fd934769785d8))
+* **ci:** add noop-ci reusable workflow, CLAUDE.md, and update README ([68b0ba5](https://github.com/teqbench/.github/commit/68b0ba5722ac5a0123c03e9fea0d924cb5796afb))
+* **ci:** add noop-ci reusable workflow, CLAUDE.md, and update README ([08b7fa5](https://github.com/teqbench/.github/commit/08b7fa5d7c7cf37f0fd2e38993d1f5ef01d11054))
+* **community:** add org-wide community health files and profile README ([e3f5c2f](https://github.com/teqbench/.github/commit/e3f5c2f88c3167477a50c06891a240716c6b3b1c))
+* prep for public release + workflow hardening ([c90c31a](https://github.com/teqbench/.github/commit/c90c31a6ae01d7fdc1aabffed82f264c047808b9))
+* **release:** add publish input to opt out of npm publish ([4713b8f](https://github.com/teqbench/.github/commit/4713b8f8a0ba456355a5a275829cf9f16f16b8c0))
+* **release:** add publish input to opt out of npm publish ([b7e6735](https://github.com/teqbench/.github/commit/b7e673537f31d6a4f49c3bfb378301ec5f47691f))
+* **release:** adopt release-please for .github repo (seed 2.5.0) ([574b6ce](https://github.com/teqbench/.github/commit/574b6cecb0f17b63e87d244f93db0e0d6190261a))
+* **release:** adopt release-please for .github repo, seeded at 2.5.0 ([803fea5](https://github.com/teqbench/.github/commit/803fea5152245be3b320b52adad7ef873e73048d))
+* **release:** generate docs/api.json + compatibility.json + links.json pre-publish ([2fef143](https://github.com/teqbench/.github/commit/2fef1434f04d2100cc1eaf894a80b304cfe2fefb))
+* **release:** generate docs/api.json, compatibility.json, links.json pre-publish ([c645e47](https://github.com/teqbench/.github/commit/c645e470504072c4b8285aabf25159a95c432da1))
+* **release:** rename docs/links.json → docs/metadata.json and widen contents ([7e82625](https://github.com/teqbench/.github/commit/7e8262511596da0d49874b35fb7af989732d70a3))
+* **release:** rename docs/links.json to docs/metadata.json and widen contents ([4f04589](https://github.com/teqbench/.github/commit/4f0458982a3421c85f204422dfc6a5a57777532d))
+* **workflows:** add reusable Docs Deploy workflow ([740c2f6](https://github.com/teqbench/.github/commit/740c2f65f38900722ba8679bd25aa28676465006))
+* **workflows:** add reusable Docs Deploy workflow for Storybook → GitHub Pages ([5d58ca8](https://github.com/teqbench/.github/commit/5d58ca85edd0e4dc6c869638dbe089ce5d2e1762))
+
+
+### Bug Fixes
+
+* **ci:** handle Unknown coverage percentage gracefully ([6ae1966](https://github.com/teqbench/.github/commit/6ae1966fbe5e4116375ba43627f1b95a971ad79b))
+* **ci:** pass github.head_ref through env var to avoid script injection ([5db154a](https://github.com/teqbench/.github/commit/5db154a84aeca9c44dae7f951aa17f9428246286))
+* **ci:** quote variables in coverage/version badge scripts (shellcheck SC2086) ([899a3f6](https://github.com/teqbench/.github/commit/899a3f6b9e0bbc0631dee057290d8a4025930dd2))
+* **ci:** support linked technology names in README version drift check ([c63c925](https://github.com/teqbench/.github/commit/c63c925b2259b2d65106945b05316efc3ffffd03))
+* **ci:** use authenticated GitHub API to fetch audit allow-list ([71b5505](https://github.com/teqbench/.github/commit/71b5505d73491168efd86f1e106a8afb10cce042))
+* **noop-ci:** use GIST_TOKEN for badge auth ([a87e519](https://github.com/teqbench/.github/commit/a87e51924c1f4fe6aa6f77ab0ae641a30a484157))
+* **noop-ci:** use GIST_TOKEN for badge auth instead of app token ([e7701f7](https://github.com/teqbench/.github/commit/e7701f7ea8df9ff436e4fd2277884cee968a0fa3))
