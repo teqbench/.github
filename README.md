@@ -7,6 +7,7 @@ Central CI/CD workflows and configuration for the TeqBench organization.
 | Workflow | Purpose | Used by |
 | :--- | :--- | :--- |
 | `ci.yml` | Lint, typecheck, test, build, badges | Node.js package repos |
+| `webapp-ci.yml` | Lint, typecheck, format check, audit | Vercel&#8209;deployed webapps |
 | `noop-ci.yml` | No&#8209;op CI with version badge | Non&#8209;compilable repos (skill libraries, docs) |
 | `release.yml` | Release Please versioning + (optional) publish to GitHub Packages | All repos (callers pass `publish: false` to opt out of publish) |
 | `sync.yml` | Merge main back into dev after release | All repos |
@@ -82,6 +83,7 @@ The `caller-templates/` directory contains ready&#8209;to&#8209;copy thin caller
 | Template | Calls |
 | :--- | :--- |
 | `ci.yml` | `ci.yml` (Node.js) |
+| `webapp-ci.yml` | `webapp-ci.yml` (Vercel-deployed webapps) |
 | `claude.yml` | `claude.yml` |
 | `dep-compat-check.yml` | `dep&#8209;compat&#8209;check.yml` |
 | `release.yml` | `release.yml` |
