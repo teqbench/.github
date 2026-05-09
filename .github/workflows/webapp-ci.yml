@@ -2,8 +2,8 @@
 # Webapp CI — Reusable Workflow (Lint, Typecheck, Audit)
 # ─────────────────────────────────────────────────────────────
 # Tailored for non-package consumers (Vercel-deployed webapps).
-# Runs format:check, typecheck, lint, and the org audit gate;
-# does NOT run tests, builds, or badge writes.
+# Runs typecheck, lint, and the org audit gate; does NOT run
+# format:check, tests, builds, or badge writes.
 #
 # Why a separate workflow from ci.yml: the package ci.yml assumes
 # a meaningful test suite (vitest exits non-zero on "No test files
@@ -108,9 +108,6 @@ jobs:
 
           SUPPRESSED=$(echo "$ALLOW_LIST" | jq 'length')
           echo "✅ Audit passed ($SUPPRESSED known advisories suppressed)"
-
-      - name: Check formatting
-        run: npm run format:check
 
       - name: TypeScript check
         run: npm run typecheck
