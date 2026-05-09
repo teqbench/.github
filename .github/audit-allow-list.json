@@ -17,5 +17,7 @@
   { "id": "GHSA-f23m-r3pf-42rh", "package": "lodash", "reason": "high, prototype pollution via _.unset/_.omit, upstream: storybook" },
   { "id": "GHSA-4w7w-66w2-5vf9", "package": "vite", "reason": "moderate, path traversal in optimized deps .map handling, dev-server only" },
   { "id": "GHSA-v2wj-q39q-566r", "package": "vite", "reason": "high, server.fs.deny bypass via queries, dev-server only" },
-  { "id": "GHSA-p9ff-h696-f583", "package": "vite", "reason": "high, arbitrary file read via dev server WebSocket, dev-server only" }
+  { "id": "GHSA-p9ff-h696-f583", "package": "vite", "reason": "high, arbitrary file read via dev server WebSocket, dev-server only" },
+  { "id": "GHSA-q3j6-qgpj-74h6", "package": "fast-uri", "reason": "high, path traversal via percent-encoded dot segments, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.1" },
+  { "id": "GHSA-v39h-62p7-jpjc", "package": "fast-uri", "reason": "high, host confusion via percent-encoded authority delimiters, build-time only via ajv (ng-packagr/storybook/angular-build), patched in 3.1.2" }
 ]
