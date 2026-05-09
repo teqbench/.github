@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/teqbench/.github/compare/v2.7.0...v2.7.1) (2026-05-09)
+
+
+### Bug Fixes
+
+* **ci:** drop format:check from webapp-ci.yml ([bb05201](https://github.com/teqbench/.github/commit/bb05201e8ffe403d59785d27ed390d8a3682a71c))
+
 ## [2.7.0](https://github.com/teqbench/.github/compare/v2.6.0...v2.7.0) (2026-05-09)
 
 
