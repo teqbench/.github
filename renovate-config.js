@@ -16,14 +16,20 @@ module.exports = {
   repositories: [
     "teqbench/.github",
     "teqbench/teqbench.dev.templates.tbx-package",
+    "teqbench/teqbench.dev.shared-skills",
+    "teqbench/teqbench.dev.misc-skills",
     "teqbench/tbx-models",
     "teqbench/tbx-ngx-errors",
     "teqbench/tbx-ngx-http",
     "teqbench/tbx-mat-icons",
-    "teqbench/tbx-mat-severity-icons",
+    "teqbench/tbx-mat-severity-theme",
     "teqbench/tbx-mat-notifications",
     "teqbench/tbx-mat-banners",
+    "teqbench/tbx-mat-bottom-sheets",
     "teqbench/tbx-mat-dialogs",
+    "teqbench/teqbench.app.website",
+    "teqbench/teqbench.app.tradingtoolbox.webapp",
+    "teqbench/teqbench.app.liists.webapp",
   ],
 
   // ── Branch targeting ─────────────────────────────────────────
