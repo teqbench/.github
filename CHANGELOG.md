@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.9.0](https://github.com/teqbench/.github/compare/v2.8.1...v2.9.0) (2026-05-09)
+
+
+### Features
+
+* **ci:** add build toggle + self-ci.yml so .github satisfies org required check ([6ceefbb](https://github.com/teqbench/.github/commit/6ceefbb619d4ead567a62edfa40fbc94d0c01b8c))
+* **ci:** adopt self-ci.yml thin caller for the org required check ([97c435f](https://github.com/teqbench/.github/commit/97c435f4ef6347713289eb5e62ccfb89bcfc108a)), closes [#28](https://github.com/teqbench/.github/issues/28)
+
+
+### Bug Fixes
+
+* **ci:** add build toggle to ci.yml ([fa5d85e](https://github.com/teqbench/.github/commit/fa5d85e374fe886bb7380d786fbbc67063d058a1)), closes [#28](https://github.com/teqbench/.github/issues/28)
+* **ci:** add npm toggle to gate every npm-dependent step ([2f35eef](https://github.com/teqbench/.github/commit/2f35eef0730f384f5f988b2dba672c489e36991e)), closes [#28](https://github.com/teqbench/.github/issues/28)
+* **ci:** self-ci.yml uses npm: false; remove placeholder .nvmrc ([223693b](https://github.com/teqbench/.github/commit/223693bd35268ebe174ef05e226f2838901ecbfa)), closes [#28](https://github.com/teqbench/.github/issues/28)
+
 ## [2.8.1](https://github.com/teqbench/.github/compare/v2.8.0...v2.8.1) (2026-05-09)
 
 
