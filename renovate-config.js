@@ -108,6 +108,25 @@ module.exports = {
       labels: ["dependencies", "ci"],
     },
 
+    // teqbench/.github reusable workflows: pin by tag only (no digest pin).
+    //
+    // pinDigests on the broader github-actions rule above generates two
+    // update candidates per workflow file (one for the version bump, one
+    // for the digest pin) that both target the same `renovate/github-actions`
+    // branch. Renovate logs "Ignoring upgrade collision" for the redundant
+    // candidates and the group is dropped — no PR is opened. Disabling
+    // pinDigests for our own org's reusable workflows leaves a single
+    // bump candidate per file, which Renovate can group cleanly.
+    //
+    // Tag pins are sufficient for our own org's reusables: tags are
+    // immutable once cut by release-please, and PR diffs read clearly
+    // (e.g. `@v2.6.0 → @v2.9.1`).
+    {
+      matchManagers: ["github-actions"],
+      matchPackageNames: ["teqbench/.github"],
+      pinDigests: false,
+    },
+
     // ── Version restrictions ──────────────────────────────────
     // ESLint: ignore majors until Angular ESLint supports them
     {
