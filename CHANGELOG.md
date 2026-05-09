@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.9.3](https://github.com/teqbench/.github/compare/v2.9.2...v2.9.3) (2026-05-09)
+
+
+### Bug Fixes
+
+* **renovate:** drop global Monday schedule + redundant per-rule overrides ([5c77652](https://github.com/teqbench/.github/commit/5c77652a704bd58bc1a6894aba72855dfed6e595))
+* **renovate:** drop global Monday schedule + redundant per-rule overrides ([dd71bd9](https://github.com/teqbench/.github/commit/dd71bd9dc1a56b326579e101a66cf5012656083f))
+
 ## [2.9.2](https://github.com/teqbench/.github/compare/v2.9.1...v2.9.2) (2026-05-09)
 
 
