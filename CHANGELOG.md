@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/teqbench/.github/compare/v2.7.1...v2.7.2) (2026-05-09)
+
+
+### Bug Fixes
+
+* **ci:** rename webapp-ci.yml job to "Lint & Typecheck" ([9dbd292](https://github.com/teqbench/.github/commit/9dbd292c98f4a79e1d699a2f8091c0f45a15a6e2))
+
 ## [2.7.1](https://github.com/teqbench/.github/compare/v2.7.0...v2.7.1) (2026-05-09)
 
 
