@@ -75,6 +75,22 @@ These are set at the **organization level** so all repos inherit them:
 | `GIST_TOKEN` | Token for pushing badge data to gist |
 | `ANTHROPIC_API_KEY` | Anthropic API key for Claude Code |
 
+## npm authentication for `@teqbench` packages
+
+The reusable `ci.yml` and `release.yml` workflows export both `NODE_AUTH_TOKEN` and `NPM_TOKEN` (each set to `${{ secrets.GITHUB_TOKEN }}`) on every `npm ci` and `npm publish` step.
+
+- **`NODE_AUTH_TOKEN`** is the convention used by [`actions/setup-node` ↗](https://github.com/actions/setup-node)'s auto&#8209;generated home `~/.npmrc`. Consumer repos without a custom `.npmrc` rely on this.
+- **`NPM_TOKEN`** is the convention [Vercel ↗](https://vercel.com) sets natively. Consumer repos with a custom `.npmrc` (e.g. webapps that consume `@teqbench/*` packages and deploy via Vercel) should reference `${NPM_TOKEN}` so the same `.npmrc` works in both CI and Vercel without per&#8209;environment env&#8209;var overrides.
+
+Recommended `.npmrc` for webapps that consume `@teqbench/*` packages:
+
+```
+@teqbench:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NPM_TOKEN}
+```
+
+Vercel project env: set `NPM_TOKEN` to a [GitHub PAT ↗](https://github.com/settings/tokens) with `read:packages` scope.
+
 ## Caller Templates
 
 The `caller-templates/` directory contains ready&#8209;to&#8209;copy thin caller workflow files:
