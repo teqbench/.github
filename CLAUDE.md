@@ -26,6 +26,7 @@ This is the organization-wide `.github` repo for TeqBench. It contains reusable 
 | Workflow | Purpose | Consuming repos |
 |---|---|---|
 | `ci.yml` | Lint, typecheck, test, build, badges | All Node.js package repos |
+| `webapp-ci.yml` | Lint, typecheck, format check, audit | Vercel-deployed webapps |
 | `noop-ci.yml` | No-op CI with version badge | Non-compilable repos (skill libraries, docs) |
 | `release.yml` | Release Please versioning + (optional) publish to GitHub Packages | All repos (callers pass `publish: false` to opt out of publish) |
 | `sync.yml` | Merge main back into dev | All repos |
