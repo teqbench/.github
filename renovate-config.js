@@ -41,9 +41,6 @@ module.exports = {
   gitAuthor:
     "teqbench-automation[bot] <263536528+teqbench-automation[bot]@users.noreply.github.com>",
 
-  // ── Schedule ─────────────────────────────────────────────────
-  schedule: ["before 9am on Monday"],
-
   // ── Custom managers ──────────────────────────────────────────
   // Track inline `npx --yes @microsoft/api-extractor@<version>` pins inside
   // release.yml so Renovate can surface version bumps for it. Without this,
@@ -67,8 +64,6 @@ module.exports = {
       automerge: true,
       automergeType: "pr",
       groupName: "teqbench packages",
-      // Override schedule for internal deps — update ASAP
-      schedule: ["at any time"],
     },
 
     // Tooling: group into one PR
