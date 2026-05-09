@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/teqbench/.github/compare/v2.6.0...v2.7.0) (2026-05-09)
+
+
+### Features
+
+* **ci:** add webapp-ci.yml reusable for non-package consumers ([bc6b790](https://github.com/teqbench/.github/commit/bc6b790f0e91a6d9d24cc2f617f1e56c203cc4b0))
+
 ## [2.6.0](https://github.com/teqbench/.github/compare/v2.5.0...v2.6.0) (2026-05-09)
 
 
