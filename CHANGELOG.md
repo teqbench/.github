@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/teqbench/.github/compare/v2.10.0...v3.0.0) (2026-05-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **renovate:** Renovate now opens PRs against main. Consumer repos need to follow up by removing sync.yml callers and retiring their dev branches as part of the GitHub Flow migration.
+
+### Features
+
+* **renovate:** adopt GitHub Flow ([d0d1224](https://github.com/teqbench/.github/commit/d0d1224bda1a892e2801458bb5d8c3b7b345bd75))
+
 ## [2.10.0](https://github.com/teqbench/.github/compare/v2.9.3...v2.10.0) (2026-05-11)
 
 
