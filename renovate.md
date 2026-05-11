@@ -113,6 +113,35 @@ The `main` branch is protected by an org-level repository ruleset that requires 
 
 ---
 
+## Cascade Behaviour
+
+Internal updates propagate through two cascades. Both are intentional and bounded.
+
+### Submodule cascade
+
+`misc-skills` is a submodule of `shared-skills`; `shared-skills` is a submodule of every consumer repo; the safety-net forks under `teqbench-forks/` are submodules of `shared-skills`. With Renovate's `git-submodules` manager enabled, submodule pointer bumps cascade automatically:
+
+1. An upstream source moves (e.g. `misc-skills` main advances, or you click "Sync fork" on a `teqbench-forks/*` repo)
+2. Renovate detects the stale submodule pointer in `shared-skills` → opens a PR → auto-merges (per the `git-submodules` rule restricted to `teqbench/**` and `teqbench-forks/**` sources)
+3. Renovate detects the stale `shared-skills` submodule pointer in every consumer → opens PRs → auto-merge
+4. Steady state in ~9 hours on the default cron, or instant via manual `gh workflow run renovate.yml -R teqbench/.github`
+
+### npm package cascade
+
+The `@teqbench/*` packages form a hierarchy (e.g. `tbx-mat-icons` → `tbx-mat-severity-theme` → `tbx-mat-notifications` / `banners` / `bottom-sheets` / `dialogs`). The `@teqbench/*` rule uses `commitMessagePrefix: "fix(deps):"` so each dep bump triggers a release-please patch bump on the consumer, which in turn triggers the next hop:
+
+1. A library publishes a new version (e.g. `tbx-mat-icons` v1.2.0 via release-please)
+2. Renovate opens a `fix(deps): ...` PR in each direct consumer → auto-merges
+3. release-please cuts a patch release on each consumer → publishes
+4. Renovate detects the new consumer versions → opens PRs in the next tier → auto-merge
+5. Repeats until the chain reaches the webapps (which consume but don't republish)
+
+### Webapp batching
+
+The three webapp repos (`teqbench.app.website`, `teqbench.app.tradingtoolbox.webapp`, `teqbench.app.liists.webapp`) batch **all** auto-merging updates to a single window (`before 6am` UTC) via a `matchRepositories` schedule rule. Without batching, every cascade hop would trigger a separate Vercel production deploy. Security-CVE updates bypass the schedule and PR immediately.
+
+---
+
 ## Security Advisories
 
 `osvVulnerabilityAlerts: true` is set, so Renovate handles GHSA / OSV advisories directly: when a vulnerable version is detected, Renovate opens a PR bumping the package — same flow as a normal update PR, but labelled `dependencies, security`. **Dependabot security updates are turned off org-wide** to avoid two bots opening parallel security PRs for the same advisory.
