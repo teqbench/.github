@@ -22,6 +22,15 @@ module.exports = {
     labels: ["dependencies", "security"],
   },
 
+  // ── Submodules ───────────────────────────────────────────────
+  // Track .gitmodules pointer updates so internal teqbench
+  // repos (shared-skills with misc-skills, all consumers with
+  // shared-skills) and the safety-net forks under teqbench-forks
+  // stay current via Renovate rather than manual submodule bumps.
+  "git-submodules": {
+    enabled: true,
+  },
+
   // ── PR lifecycle ─────────────────────────────────────────────
   // Closing a Renovate PR without merging defaults to "do not
   // reopen for this version" — quiet packages can then go silent
@@ -96,11 +105,32 @@ module.exports = {
   packageRules: [
     // Internal @teqbench packages: auto-merge all updates (including
     // majors — internal contract changes are coordinated in-PR).
+    //
+    // commitMessagePrefix override: use `fix(deps):` so release-please
+    // treats internal package updates as patch-bump triggers. This
+    // unblocks the multi-hop cascade through the package hierarchy
+    // (tbx-mat-icons -> tbx-mat-severity-theme -> notifications/banners
+    // /bottom-sheets/dialogs). Without the override, `chore(deps):` is
+    // a no-bump type and the cascade stops after the first hop.
     {
       matchPackageNames: ["/^@teqbench//"],
       automerge: true,
       automergeType: "pr",
       groupName: "teqbench packages",
+      commitMessagePrefix: "fix(deps):",
+    },
+
+    // Submodule updates from teqbench-owned sources: auto-merge.
+    // Restricts to teqbench/* and teqbench-forks/* — any future
+    // submodule from elsewhere falls through to manual review.
+    {
+      matchManagers: ["git-submodules"],
+      matchSourceUrls: [
+        "https://github.com/teqbench/**",
+        "https://github.com/teqbench-forks/**",
+      ],
+      automerge: true,
+      automergeType: "pr",
     },
 
     // Dev dependencies: auto-merge patch + minor. Majors fall through
@@ -218,6 +248,23 @@ module.exports = {
     {
       matchUpdateTypes: ["major"],
       automerge: false,
+    },
+
+    // ── Webapp daily batching ─────────────────────────────────
+    // Vercel deploys on every push to main in the webapps. Without
+    // batching, each cascading dep update would trigger a separate
+    // production deploy. Schedule webapp updates to land in a single
+    // early-morning window so accumulated bumps deploy together.
+    //
+    // Security CVE updates bypass schedules per Renovate's defaults
+    // (osvVulnerabilityAlerts above) — those still PR immediately.
+    {
+      matchRepositories: [
+        "teqbench/teqbench.app.website",
+        "teqbench/teqbench.app.tradingtoolbox.webapp",
+        "teqbench/teqbench.app.liists.webapp",
+      ],
+      schedule: ["before 6am"],
     },
   ],
 

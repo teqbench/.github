@@ -75,7 +75,7 @@ Renovate is the **single source of dependency updates** across all enrolled repo
 - **Auto-merge tier** (no human review, CI is the gate): `lockFileMaintenance`, `devDependencies` patch + minor, `@teqbench/*` (all), `tooling` group patch + minor, `github-actions` group patch + minor + digest.
 - **Manual review tier**: runtime `dependencies`, all majors (enforced by a defensive `matchUpdateTypes: ["major"]` rule), `typescript`, `eslint`.
 
-`recreateWhen: "always"` means closing a Renovate PR without merging doesn't retire that update — the next Renovate run respawns it. Persistent rejections belong in a `packageRules` entry with `enabled: false`. Full details in `renovate.md`.
+`recreateWhen: "always"` means closing a Renovate PR without merging doesn't retire that update — the next Renovate run respawns it. Persistent rejections belong in a `packageRules` entry with `enabled: false`. Full details in `renovate.md`, including the **cascade behaviour** for internal package and submodule updates.
 
 ### Repo prerequisite: `allow_auto_merge`
 
