@@ -78,6 +78,19 @@ Renovate is the **single source of dependency updates** across all enrolled repo
 
 `recreateWhen: "always"` means closing a Renovate PR without merging doesn't retire that update — the next Renovate run respawns it. Persistent rejections belong in a `packageRules` entry with `enabled: false`. Full details in `renovate.md`.
 
+### Repo prerequisite: `allow_auto_merge`
+
+Renovate's auto-merge tier uses `automergeType: "pr"` + the default `platformAutomerge: true`, which calls GitHub's `enablePullRequestAutoMerge` GraphQL mutation. That mutation requires the repo to have **Settings → General → Allow auto-merge** turned on. Without it, Renovate's call is silently rejected: PRs reach `mergeStateStatus: CLEAN` with `autoMergeRequest: null` and sit indefinitely.
+
+Audit and enable:
+
+```bash
+gh api repos/<owner>/<repo> --jq '.allow_auto_merge'
+gh api -X PATCH repos/<owner>/<repo> -F allow_auto_merge=true
+```
+
+Every enrolled repo in `renovate-config.js` needs this flag set.
+
 ## Automation GitHub App
 
 Most automated workflows run under the **`teqbench-devops-gh-app`** GitHub App (formerly `teqbench-automation`; renamed on the App, same underlying account).
@@ -106,6 +119,7 @@ The App is a bypass actor on the org-level repository rulesets for both `dev` an
 2. Add thin caller workflows referencing the org reusable workflows
 3. Add the repo name to the `repositories` array in `renovate-config.js` (if it has npm dependencies)
 4. Set the `GIST_ID` repo variable to the shared gist ID
+5. Enable `allow_auto_merge` on the repo so Renovate's trusted-tier auto-merge works (see Dependency Updates → Repo prerequisite): `gh api -X PATCH repos/teqbench/<repo> -F allow_auto_merge=true`
 
 ## Commit Convention
 
