@@ -6,7 +6,7 @@
 
 ## Purpose
 
-Automatically opens pull requests to update dependencies in every enrolled `@teqbench` repository. PRs target the `dev` branch (not `main`) and use [Conventional Commits ↗](https://www.conventionalcommits.org/) message prefixes so they integrate cleanly with the [release-please ↗](https://github.com/googleapis/release-please) workflow.
+Automatically opens pull requests to update dependencies in every enrolled `@teqbench` repository. PRs target `main` and use [Conventional Commits ↗](https://www.conventionalcommits.org/) message prefixes so they integrate cleanly with the [release-please ↗](https://github.com/googleapis/release-please) workflow.
 
 ---
 
@@ -30,7 +30,7 @@ The workflow can also be triggered manually via `workflow_dispatch` from this re
 
 ## Target Branch
 
-All Renovate PRs target **`dev`** (`baseBranchPatterns: ["dev"]`). Updates flow through the standard PR review and CI pipeline before reaching production.
+All Renovate PRs target **`main`** (`baseBranchPatterns: ["main"]`). Under GitHub Flow, `main` is the only long-lived branch — there is no separate integration branch. CI is the merge gate; trusted-tier PRs auto-merge to `main` once checks are green.
 
 ---
 
@@ -105,9 +105,7 @@ Dependency PRs are split into two tiers by `packageRules` in `renovate-config.js
 
 ### How auto-merge is gated
 
-The `dev` branch is protected by an org-level repository ruleset that requires PR review and passing status checks. `teqbench-devops-gh-app[bot]` is configured as a **bypass actor** on that ruleset (mode: "for pull requests only"), so the App can self-merge once CI is green without satisfying the required-review rule. Required status checks still apply — bypass does not skip CI.
-
-The same App also has bypass on the `main` ruleset, which is what allows `release-please` PRs to self-merge during the release flow.
+The `main` branch is protected by an org-level repository ruleset that requires passing status checks. `teqbench-devops-gh-app[bot]` is configured as a **bypass actor** on that ruleset (mode: "for pull requests only"), so the App can self-merge trusted-tier Renovate PRs and `release-please` PRs once CI is green. Required status checks still apply — bypass does not skip CI.
 
 ### Closed-PR behaviour
 
