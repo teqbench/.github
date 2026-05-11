@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.0](https://github.com/teqbench/.github/compare/v4.0.0...v4.1.0) (2026-05-11)
+
+
+### Features
+
+* **renovate:** enable submodule cascade and webapp daily batching ([76d5ed2](https://github.com/teqbench/.github/commit/76d5ed205c850e51cff74d8614b714cb8b4b1ae6))
+* **renovate:** enable submodule cascade and webapp daily batching ([4db8b1d](https://github.com/teqbench/.github/commit/4db8b1d65353c3aeba536c7226f0a098db2cd273))
+
 ## [4.0.0](https://github.com/teqbench/.github/compare/v3.0.1...v4.0.0) (2026-05-11)
 
 
