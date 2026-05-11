@@ -52,7 +52,7 @@ module.exports = {
   ],
 
   // ── Branch targeting ─────────────────────────────────────────
-  baseBranchPatterns: ["dev"],
+  baseBranchPatterns: ["main"],
 
   // ── Commit & PR conventions ──────────────────────────────────
   commitMessagePrefix: "chore(deps):",
@@ -90,7 +90,7 @@ module.exports = {
   //     - typescript, eslint
   //
   // CI (lint, typecheck, audit, test, build, plus dep-compat-check on
-  // libraries) is the merge gate. Branch protection on `dev` requires
+  // libraries) is the merge gate. Branch protection on `main` requires
   // these checks; `teqbench-devops-gh-app[bot]` is a bypass actor on the
   // org-level ruleset so the bot can self-merge once checks are green.
   packageRules: [

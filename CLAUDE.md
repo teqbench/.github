@@ -28,7 +28,7 @@ This is the organization-wide `.github` repo for TeqBench. It contains reusable 
 | `ci.yml` | Lint, typecheck, format check, audit, test, build, badges (most steps individually toggleable via inputs) | Node.js packages and webapps |
 | `noop-ci.yml` | No-op CI with version badge | Non-compilable repos (skill libraries, docs) |
 | `release.yml` | Release Please versioning + (optional) publish to GitHub Packages | All repos (callers pass `publish: false` to opt out of publish) |
-| `sync.yml` | Merge main back into dev | All repos |
+| `sync.yml` | _Deprecated_ (legacy GitFlow). Merge main back into dev. Scheduled for removal once GitHub Flow migration completes. | All repos |
 | `claude.yml` | Claude Code integration (@claude triggers) | All repos |
 | `dep-compat-check.yml` | Dependency compatibility tracking | Node.js package repos |
 | `docs-deploy.yml` | Build consumer-facing Storybook and deploy to GitHub Pages | Repos that publish docs |
@@ -46,7 +46,7 @@ Because consuming repos pin to `@main`, any merge here is an immediate org-wide 
 2. In one consuming repo, temporarily change the caller's `uses:` line from `@main` to `@feature/your-branch-name`.
 3. Trigger the workflow (push, PR, or manual dispatch) and verify it succeeds end-to-end.
 4. Revert the caller back to `@main` in the consuming repo.
-5. Open the PR here targeting `dev`, follow the normal merge flow.
+5. Open the PR here targeting `main`, follow the normal merge flow.
 
 ## Community Health Files
 
@@ -102,7 +102,7 @@ Most automated workflows run under the **`teqbench-devops-gh-app`** GitHub App (
 | Bot user ID | `263536528` |
 | Bot noreply email | `263536528+teqbench-devops-gh-app[bot]@users.noreply.github.com` |
 
-The App is a bypass actor on the org-level repository rulesets for both `dev` and `main` (mode: "for pull requests only"). On `dev` this lets Renovate auto-merge dependency PRs in the trusted tier once CI is green. On `main` it lets `release-please` self-merge release PRs. Required status checks still apply on both branches — bypass does not skip CI.
+The App is a bypass actor on the org-level repository ruleset for `main` (mode: "for pull requests only"). This lets Renovate auto-merge trusted-tier dependency PRs and lets `release-please` self-merge release PRs once CI is green. Required status checks still apply — bypass does not skip CI.
 
 ## Required Secrets (Org-Level)
 
@@ -136,17 +136,19 @@ Use the workflow name as scope (e.g., `feat(ci): add coverage threshold check`, 
 
 ## Branching & Workflow
 
-- `main` -- Production. Only receives merges from `release/*`, `hotfix/*`, or `release-please--*` branches.
-- `dev` -- Integration branch. Receives merges from `feature/*` and `bugfix/*` branches.
-- Create feature/bugfix branches off `dev`, PR back to `dev`.
-- Use `release/*` branches to carry `dev` to `main`.
-- Use `hotfix/*` branches off `main` for urgent fixes.
+Follows GitHub Flow:
+
+- `main` is the only long-lived branch.
+- Create short-lived branches off `main` for any work — `feature/*`, `bugfix/*`, `chore/*`. Branches live hours to days, not weeks.
+- Open a PR to `main`. CI is the merge gate.
+- Renovate PRs target `main`; trusted-tier dependency updates auto-merge once CI is green.
+- release-please runs on `main` and opens release PRs for `feat:` / `fix:` commits. Merging a release PR tags the release and publishes.
+- Hotfixes are normal PRs to `main` — no separate `hotfix/*` ceremony.
 
 ### What Claude Should Do
 
-- Create feature or bugfix branches off `dev` when implementing changes.
+- Create branches off `main`, PR back to `main`.
 - Use Conventional Commits messages.
-- Create PRs targeting `dev` (never directly target `main`).
 - Keep PRs focused and atomic.
 - When modifying reusable workflows, consider impact on all consuming repos.
 - When a workflow's inputs change (add / remove / rename), update the matching file in `caller-templates/` in the same PR. No automated check catches drift between the two.
@@ -154,7 +156,7 @@ Use the workflow name as scope (e.g., `feat(ci): add coverage threshold check`, 
 
 ### What Claude Should NOT Do
 
-- Never push directly to `main` or `dev`.
+- Never push directly to `main`.
 - Never force-push to any branch.
 - Never delete branches.
 - Never modify secrets or tokens.
