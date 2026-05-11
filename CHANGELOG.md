@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.1](https://github.com/teqbench/.github/compare/v3.0.0...v3.0.1) (2026-05-11)
+
+
+### Bug Fixes
+
+* **ci:** remove GitFlow source-branch guard ([071169c](https://github.com/teqbench/.github/commit/071169c0b1a26960ba2dd31f87b122d0e94aba56))
+* **ci:** remove GitFlow source-branch guard ([621be79](https://github.com/teqbench/.github/commit/621be79908fdbeb7c4064b3391627417a6a3d759))
+
 ## [3.0.0](https://github.com/teqbench/.github/compare/v2.10.0...v3.0.0) (2026-05-11)
 
 
