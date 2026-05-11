@@ -12,7 +12,7 @@ Automatically opens pull requests to update dependencies in every enrolled `@teq
 
 ## How It's Wired
 
-The workflow lives in `.github/workflows/renovate.yml` and runs every three hours under the `teqbench-automation` GitHub App. It reads `renovate-config.js`, which lists the repositories Renovate should manage in the `repositories[]` array.
+The workflow lives in `.github/workflows/renovate.yml` and runs every three hours under the `teqbench-devops-gh-app` GitHub App. It reads `renovate-config.js`, which lists the repositories Renovate should manage in the `repositories[]` array.
 
 To enroll a new repository, add `teqbench/<repo-name>` to that array. No file needs to live inside the consuming repo.
 
@@ -43,7 +43,7 @@ All Renovate PRs target **`dev`** (`baseBranchPatterns: ["dev"]`). Updates flow 
     <dd>Commit prefix: <code>chore(ci):</code>. Labels: <code>dependencies</code>, <code>ci</code>.</dd>
 </dl>
 
-`gitAuthor` is set to the `teqbench-automation[bot]` account so commits are correctly attributed.
+`gitAuthor` is set to the `teqbench-devops-gh-app[bot]` account so commits are correctly attributed.
 
 ---
 
@@ -80,9 +80,44 @@ uses: teqbench/.github/.github/workflows/ci.yml@7de482dbdfad13f3ca7ba3f9be3111d6
 
 ## Auto-Merge
 
-Internal `@teqbench/*` packages are configured with `automerge: true` and `automergeType: "pr"`. When CI passes, Renovate merges the PR automatically — no human review required for internal version bumps.
+Dependency PRs are split into two tiers by `packageRules` in `renovate-config.js`. CI (lint, typecheck, audit, test, build, plus `dep-compat-check` on library repos) is the merge gate for the auto-merge tier — once checks are green, Renovate merges the PR via the GitHub API.
 
-All other packages require manual review and merge.
+**Auto-merge tier (no human review):**
+
+<dl>
+    <dt><code>lockFileMaintenance</code></dt>
+    <dd>Weekly lockfile refresh (transitive resolution re-pinning, no version bumps).</dd>
+    <dt><code>devDependencies</code> patch + minor</dt>
+    <dd>Any package declared under <code>devDependencies</code>. Build-time only; runtime is unaffected.</dd>
+    <dt><code>@teqbench/*</code></dt>
+    <dd>All updates including majors. Internal contract changes are coordinated in-PR.</dd>
+    <dt><code>tooling</code> group patch + minor</dt>
+    <dd><code>prettier</code>, <code>husky</code>, <code>lint-staged</code>, <code>vitest</code>, <code>eslint-*</code>, <code>@eslint/*</code>, <code>typescript-eslint</code>, etc.</dd>
+    <dt><code>github-actions</code> group patch + minor + digest</dt>
+    <dd>Third-party action bumps (digest re-pins on tag movement).</dd>
+</dl>
+
+**Manual review tier:**
+
+- Runtime `dependencies` (any non-dev, non-`@teqbench/*` package)
+- **All majors**, regardless of group — a defensive `matchUpdateTypes: ["major"]` rule at the bottom of `packageRules` enforces this even if a future rule sets `automerge: true` without restricting update types.
+- `typescript` and `eslint` (toolchain-wide impact; held manual on purpose)
+
+### How auto-merge is gated
+
+The `dev` branch is protected by an org-level repository ruleset that requires PR review and passing status checks. `teqbench-devops-gh-app[bot]` is configured as a **bypass actor** on that ruleset (mode: "for pull requests only"), so the App can self-merge once CI is green without satisfying the required-review rule. Required status checks still apply — bypass does not skip CI.
+
+The same App also has bypass on the `main` ruleset, which is what allows `release-please` PRs to self-merge during the release flow.
+
+### Closed-PR behaviour
+
+`recreateWhen: "always"` is set so closing a Renovate PR without merging does **not** silently retire that update. The next Renovate run respawns it. Persistent rejections belong in a `packageRules` entry with `enabled: false`, not in closed PRs.
+
+---
+
+## Security Advisories
+
+`osvVulnerabilityAlerts: true` is set, so Renovate handles GHSA / OSV advisories directly: when a vulnerable version is detected, Renovate opens a PR bumping the package — same flow as a normal update PR, but labelled `dependencies, security`. **Dependabot security updates are turned off org-wide** to avoid two bots opening parallel security PRs for the same advisory.
 
 ---
 
@@ -103,7 +138,7 @@ Enrolled repos may also document these intents in a custom `devDependenciesPinne
 
 ## CI Integration
 
-Renovate PRs trigger the standard CI workflow in each enrolled repo like any other PR. Because Renovate runs as the `teqbench-automation[bot]` GitHub App, CI has full access to organisation secrets and submodules — there are no Renovate-specific carve-outs in the workflow.
+Renovate PRs trigger the standard CI workflow in each enrolled repo like any other PR. Because Renovate runs as the `teqbench-devops-gh-app[bot]` GitHub App, CI has full access to organisation secrets and submodules — there are no Renovate-specific carve-outs in the workflow.
 
 ---
 

@@ -12,6 +12,25 @@ module.exports = {
   onboarding: false,
   requireConfig: "optional",
 
+  // ── Security advisories ──────────────────────────────────────
+  // Renovate handles GHSA / OSV advisories directly so we don't
+  // need Dependabot security updates in parallel. One bot, one
+  // path, one policy file.
+  osvVulnerabilityAlerts: true,
+  vulnerabilityAlerts: {
+    enabled: true,
+    labels: ["dependencies", "security"],
+  },
+
+  // ── PR lifecycle ─────────────────────────────────────────────
+  // Closing a Renovate PR without merging defaults to "do not
+  // reopen for this version" — quiet packages can then go silent
+  // for weeks. Forcing recreation keeps the queue self-healing:
+  // bulk-closing the backlog respawns everything still needed on
+  // the next Renovate run. Persistent ignores belong in a
+  // packageRules entry with `enabled: false`, not in closed PRs.
+  recreateWhen: "always",
+
   // ── Repo list (add new repos here) ───────────────────────────
   repositories: [
     "teqbench/.github",
@@ -39,7 +58,7 @@ module.exports = {
   commitMessagePrefix: "chore(deps):",
   labels: ["dependencies"],
   gitAuthor:
-    "teqbench-automation[bot] <263536528+teqbench-automation[bot]@users.noreply.github.com>",
+    "teqbench-devops-gh-app[bot] <263536528+teqbench-devops-gh-app[bot]@users.noreply.github.com>",
 
   // ── Custom managers ──────────────────────────────────────────
   // Track inline `npx --yes @microsoft/api-extractor@<version>` pins inside
@@ -57,8 +76,26 @@ module.exports = {
   ],
 
   // ── Package rules ────────────────────────────────────────────
+  //
+  // Trust model (conservative tier):
+  //   Auto-merge on green CI:
+  //     - lockFileMaintenance (top-level key, below)
+  //     - devDependencies patch + minor + pin + digest
+  //     - @teqbench/* (all updates)
+  //     - tooling group (patch + minor)
+  //     - github-actions group (patch + minor + digest + pin)
+  //   Manual review (no automerge):
+  //     - runtime dependencies (any non-dev, non-@teqbench)
+  //     - all majors (any package, any group)
+  //     - typescript, eslint
+  //
+  // CI (lint, typecheck, audit, test, build, plus dep-compat-check on
+  // libraries) is the merge gate. Branch protection on `dev` requires
+  // these checks; `teqbench-devops-gh-app[bot]` is a bypass actor on the
+  // org-level ruleset so the bot can self-merge once checks are green.
   packageRules: [
-    // Internal @teqbench packages: auto-merge + group
+    // Internal @teqbench packages: auto-merge all updates (including
+    // majors — internal contract changes are coordinated in-PR).
     {
       matchPackageNames: ["/^@teqbench//"],
       automerge: true,
@@ -66,7 +103,16 @@ module.exports = {
       groupName: "teqbench packages",
     },
 
-    // Tooling: group into one PR
+    // Dev dependencies: auto-merge patch + minor. Majors fall through
+    // to manual review.
+    {
+      matchDepTypes: ["devDependencies"],
+      matchUpdateTypes: ["patch", "minor", "pin", "digest"],
+      automerge: true,
+      automergeType: "pr",
+    },
+
+    // Tooling: group into one PR, auto-merge patch + minor.
     {
       matchPackageNames: [
         "prettier",
@@ -81,16 +127,22 @@ module.exports = {
         "/^typescript-eslint/",
       ],
       groupName: "tooling",
+      matchUpdateTypes: ["patch", "minor", "pin", "digest"],
+      automerge: true,
+      automergeType: "pr",
     },
 
 
-    // TypeScript: separate PR
+    // TypeScript: separate PR, manual review. Toolchain-wide impact
+    // (declarations, downstream consumers) warrants a human look even
+    // on minors.
     {
       matchPackageNames: ["typescript"],
       groupName: "typescript",
     },
 
-    // GitHub Actions: separate PR with CI prefix.
+    // GitHub Actions: separate PR with CI prefix, auto-merge patch +
+    // minor + digest. Majors require manual review.
     //
     // `pinDigests` enforces the `@<sha> # <tag>` pattern for all third-party
     // actions across teqbench repos — Renovate will add missing digests on
@@ -101,6 +153,9 @@ module.exports = {
       groupName: "github-actions",
       commitMessagePrefix: "chore(ci):",
       labels: ["dependencies", "ci"],
+      matchUpdateTypes: ["patch", "minor", "pin", "digest"],
+      automerge: true,
+      automergeType: "pr",
     },
 
     // teqbench/.github reusable workflows: pin by tag only (no digest pin).
@@ -134,5 +189,25 @@ module.exports = {
       matchPackageNames: ["@types/node"],
       allowedVersions: "<25.0.0",
     },
+
+    // ── Defensive override ────────────────────────────────────
+    // Belt-and-suspenders: even if a future rule sets automerge: true
+    // without restricting matchUpdateTypes, majors stay manual. Keeps
+    // the trust boundary explicit at the bottom of the file.
+    {
+      matchUpdateTypes: ["major"],
+      automerge: false,
+    },
   ],
+
+  // ── Lockfile maintenance ─────────────────────────────────────
+  // Refresh the lockfile weekly (no version bumps, just resolution
+  // re-pinning). Safe to auto-merge: the bump is purely transitive
+  // and gated by full CI.
+  lockFileMaintenance: {
+    enabled: true,
+    automerge: true,
+    automergeType: "pr",
+    schedule: ["before 9am on Monday"],
+  },
 };

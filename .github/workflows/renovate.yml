@@ -2,7 +2,7 @@
 # Renovate — Centralized Dependency Management
 # ─────────────────────────────────────────────────────────────
 # Runs Renovate against all configured teqbench repos.
-# Uses the teqbench-automation GitHub App for authentication.
+# Uses the teqbench-devops-gh-app GitHub App for authentication.
 #
 # Features:
 #   - Auto-merge for internal @teqbench packages

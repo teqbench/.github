@@ -67,12 +67,36 @@ Edits to these files propagate silently to every consuming repo without a CI run
 - Add entries only when the advisory is confirmed upstream-blocked. Include `id`, `package`, and `reason`.
 - Remove entries when the upstream dependency publishes a fix and the framework adopts it — leaving stale entries hides real regressions.
 
+## Dependency Updates
+
+Renovate is the **single source of dependency updates** across all enrolled repos (including security advisories via `osvVulnerabilityAlerts`). Dependabot security updates are turned off org-wide to avoid two bots opening parallel PRs for the same advisory.
+
+`renovate-config.js` defines a two-tier trust model:
+
+- **Auto-merge tier** (no human review, CI is the gate): `lockFileMaintenance`, `devDependencies` patch + minor, `@teqbench/*` (all), `tooling` group patch + minor, `github-actions` group patch + minor + digest.
+- **Manual review tier**: runtime `dependencies`, all majors (enforced by a defensive `matchUpdateTypes: ["major"]` rule), `typescript`, `eslint`.
+
+`recreateWhen: "always"` means closing a Renovate PR without merging doesn't retire that update — the next Renovate run respawns it. Persistent rejections belong in a `packageRules` entry with `enabled: false`. Full details in `renovate.md`.
+
+## Automation GitHub App
+
+Most automated workflows run under the **`teqbench-devops-gh-app`** GitHub App (formerly `teqbench-automation`; renamed on the App, same underlying account).
+
+| Property | Value |
+|---|---|
+| App ID | `2935880` |
+| Bot login | `teqbench-devops-gh-app[bot]` |
+| Bot user ID | `263536528` |
+| Bot noreply email | `263536528+teqbench-devops-gh-app[bot]@users.noreply.github.com` |
+
+The App is a bypass actor on the org-level repository rulesets for both `dev` and `main` (mode: "for pull requests only"). On `dev` this lets Renovate auto-merge dependency PRs in the trusted tier once CI is green. On `main` it lets `release-please` self-merge release PRs. Required status checks still apply on both branches — bypass does not skip CI.
+
 ## Required Secrets (Org-Level)
 
 | Secret | Purpose |
 |---|---|
-| `APP_CLIENT_ID` | teqbench-automation GitHub App Client ID (replaces deprecated `APP_ID`) |
-| `APP_PRIVATE_KEY` | teqbench-automation GitHub App private key |
+| `APP_CLIENT_ID` | teqbench-devops-gh-app GitHub App Client ID (replaces deprecated `APP_ID`) |
+| `APP_PRIVATE_KEY` | teqbench-devops-gh-app GitHub App private key |
 | `GIST_TOKEN` | Token for pushing badge data to gist |
 | `ANTHROPIC_API_KEY` | Anthropic API key for Claude Code |
 
