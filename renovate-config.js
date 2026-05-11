@@ -119,6 +119,7 @@ module.exports = {
         "husky",
         "lint-staged",
         "vitest",
+        "@microsoft/api-extractor",
         "/^prettier-/",
         "/^@prettier//",
         "/^@vitest//",
