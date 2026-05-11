@@ -38,8 +38,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          git config user.name "teqbench-automation[bot]"
-          git config user.email "263536528+teqbench-automation[bot]@users.noreply.github.com"
+          git config user.name "teqbench-devops-gh-app[bot]"
+          git config user.email "263536528+teqbench-devops-gh-app[bot]@users.noreply.github.com"
 
           git fetch origin main dev
           git checkout dev
