@@ -28,7 +28,6 @@ This is the organization-wide `.github` repo for TeqBench. It contains reusable 
 | `ci.yml` | Lint, typecheck, format check, audit, test, build, badges (most steps individually toggleable via inputs) | Node.js packages and webapps |
 | `noop-ci.yml` | No-op CI with version badge | Non-compilable repos (skill libraries, docs) |
 | `release.yml` | Release Please versioning + (optional) publish to GitHub Packages | All repos (callers pass `publish: false` to opt out of publish) |
-| `sync.yml` | _Deprecated_ (legacy GitFlow). Merge main back into dev. Scheduled for removal once GitHub Flow migration completes. | All repos |
 | `claude.yml` | Claude Code integration (@claude triggers) | All repos |
 | `dep-compat-check.yml` | Dependency compatibility tracking | Node.js package repos |
 | `docs-deploy.yml` | Build consumer-facing Storybook and deploy to GitHub Pages | Repos that publish docs |
