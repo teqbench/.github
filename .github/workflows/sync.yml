@@ -1,4 +1,9 @@
 # ─────────────────────────────────────────────────────────────
+# DEPRECATED — legacy GitFlow workflow.
+# Scheduled for removal once the GitHub Flow migration completes.
+# Do not add to new repos. Existing callers continue to run
+# harmlessly until the dev branches they sync are retired.
+# ─────────────────────────────────────────────────────────────
 # Sync — Reusable Workflow (Merge main back to dev)
 # ─────────────────────────────────────────────────────────────
 # Keeps dev in sync with main after every merge.

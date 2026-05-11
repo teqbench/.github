@@ -1,3 +1,7 @@
+# ─────────────────────────────────────────────────────────────
+# DEPRECATED — legacy GitFlow workflow.
+# Scheduled for removal once the GitHub Flow migration completes.
+# ─────────────────────────────────────────────────────────────
 # Self-thin-caller — runs the org-wide reusable Sync workflow against
 # this repo, merging main back into dev after every release-please PR
 # merge. Named with the self- prefix to distinguish it from the reusable

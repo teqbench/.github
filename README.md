@@ -9,7 +9,7 @@ Central CI/CD workflows and configuration for the TeqBench organization.
 | `ci.yml` | Lint, typecheck, format check, audit, test, build, badges (most steps individually toggleable) | Node.js packages and webapps |
 | `noop-ci.yml` | No&#8209;op CI with version badge | Non&#8209;compilable repos (skill libraries, docs) |
 | `release.yml` | Release Please versioning + (optional) publish to GitHub Packages | All repos (callers pass `publish: false` to opt out of publish) |
-| `sync.yml` | Merge main back into dev after release | All repos |
+| `sync.yml` | _Deprecated_ (legacy GitFlow). Merge main back into dev. Scheduled for removal once GitHub Flow migration completes. | All repos |
 | `claude.yml` | Claude Code integration (@claude triggers) | All repos |
 | `dep-compat-check.yml` | Dependency compatibility tracking | Node.js package repos |
 | `renovate.yml` | Scheduled Renovate runs for dependency updates | Central (this repo only) |
@@ -23,9 +23,9 @@ Each repo has thin caller workflows that delegate to these reusable workflows:
 name: ci
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   pull_request:
-    branches: [main, dev]
+    branches: [main]
 
 jobs:
   ci:
@@ -42,9 +42,9 @@ For non&#8209;compilable repos (no `package.json`), use `noop-ci.yml` instead:
 name: ci
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   pull_request:
-    branches: [main, dev]
+    branches: [main]
 
 jobs:
   ci:
@@ -101,6 +101,6 @@ The `caller-templates/` directory contains ready&#8209;to&#8209;copy thin caller
 | `claude.yml` | `claude.yml` |
 | `dep-compat-check.yml` | `dep&#8209;compat&#8209;check.yml` |
 | `release.yml` | `release.yml` |
-| `sync.yml` | `sync.yml` |
+| `sync.yml` | `sync.yml` — _deprecated_ (legacy GitFlow), do not add to new repos |
 
 A `noop-ci.yml` caller template is not included because the caller file is identical to the `ci.yml` template with only the `uses:` line changed.
