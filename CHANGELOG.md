@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/teqbench/.github/compare/v3.0.1...v4.0.0) (2026-05-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ci:** The teqbench/.github/.github/workflows/sync.yml reusable workflow is removed. Any external caller referencing it will fail. All 15 internal consumer repos have already had their sync.yml callers removed in advance of this change.
+
+### Miscellaneous Chores
+
+* **ci:** remove deprecated sync.yml workflow ([de84649](https://github.com/teqbench/.github/commit/de8464953ae79dad51c5d2926df5083243ed2452))
+
 ## [3.0.1](https://github.com/teqbench/.github/compare/v3.0.0...v3.0.1) (2026-05-11)
 
 
