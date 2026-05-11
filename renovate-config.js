@@ -191,6 +191,26 @@ module.exports = {
       allowedVersions: "<25.0.0",
     },
 
+    // ── Disabled deps ─────────────────────────────────────────
+    // npm `overrides` field: do not manage.
+    //
+    // (1) Renovate's npm manager doesn't reliably regenerate the
+    //     package-lock.json when only the overrides field changes,
+    //     producing PRs that fail `npm ci` with
+    //     "Missing: <pkg>@<v> from lock file".
+    //
+    // (2) More importantly: overrides exist to pin a specific
+    //     transitive version for a deliberate reason (CVE workaround,
+    //     build-time compatibility — see e.g. the documented vite
+    //     7.3.2 pin under `@angular/build` in the tbx-mat-* / tbx-ngx-*
+    //     repos). Renovate should not be fighting that pin. Bump
+    //     overrides manually as a normal PR when the underlying
+    //     reason is resolved.
+    {
+      matchDepTypes: ["overrides"],
+      enabled: false,
+    },
+
     // ── Defensive override ────────────────────────────────────
     // Belt-and-suspenders: even if a future rule sets automerge: true
     // without restricting matchUpdateTypes, majors stay manual. Keeps
