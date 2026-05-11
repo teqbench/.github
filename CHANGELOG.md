@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.0](https://github.com/teqbench/.github/compare/v2.9.3...v2.10.0) (2026-05-11)
+
+
+### Features
+
+* **renovate:** conservative auto-merge tier + bot rename ([779070d](https://github.com/teqbench/.github/commit/779070d8771d21d9616a3ee9c4c513811c59b27d))
+* **renovate:** introduce conservative auto-merge tier and rename bot identity ([f08eb35](https://github.com/teqbench/.github/commit/f08eb35ebcdd13a819fe7757fa1a55c2717368f2))
+
 ## [2.9.3](https://github.com/teqbench/.github/compare/v2.9.2...v2.9.3) (2026-05-09)
 
 
