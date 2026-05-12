@@ -19,6 +19,8 @@ This is the organization-wide `.github` repo for TeqBench. It contains reusable 
 - `profile/README.md` -- Rendered on the **TeqBench organization profile page** (`github.com/teqbench`). Distinct from the repo `README.md`.
 - `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md` -- Org-default community health files (see Community Health Files section below)
 - `renovate-config.js` -- Central Renovate configuration for dependency updates across all repos
+- `renovate.md` -- Renovate configuration walkthrough, trust-tier model, and cascade behaviour
+- `runbook.md` -- Operational runbook: manual operations, incident response, recovery procedures, routine maintenance
 - `README.md` -- This repo's own documentation (rendered on `github.com/teqbench/.github`)
 
 ## Reusable Workflows
