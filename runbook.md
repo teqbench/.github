@@ -19,7 +19,7 @@ This document complements but does not replace:
 1. [Manual operations](#manual-operations)
    - [Trigger Renovate on demand](#trigger-renovate-on-demand)
    - [Sync a fork from upstream](#sync-a-fork-from-upstream)
-   - [Force a webapp deploy outside the daily batching window](#force-a-webapp-deploy-outside-the-daily-batching-window)
+   - [Force a webapp deploy outside the weekly batching window](#force-a-webapp-deploy-outside-the-weekly-batching-window)
    - [Enroll a new repo into the org pipeline](#enroll-a-new-repo-into-the-org-pipeline)
    - [Retire a repo from the org pipeline](#retire-a-repo-from-the-org-pipeline)
    - [Manually merge a major-bump PR after review](#manually-merge-a-major-bump-pr-after-review)
@@ -112,11 +112,11 @@ gh api -X POST repos/teqbench-forks/<fork-name>/merge-upstream -f branch=main
 
 ---
 
-### Force a webapp deploy outside the daily batching window
+### Force a webapp deploy outside the weekly batching window
 
-**When:** you need a webapp to deploy now (e.g. a hotfix, a manual content update), bypassing the `before 6am` schedule for `teqbench/teqbench.app.*` repos.
+**When:** you need a webapp to deploy now (e.g. a hotfix, a manual content update), bypassing the `before 6am on Wednesday` schedule for `teqbench/teqbench.app.*` repos.
 
-**The webapps batch their Renovate updates daily.** Manual PRs and direct commits to `main` are not affected by the schedule — only Renovate-authored PRs.
+**The webapps batch their Renovate updates weekly (Wednesday morning UTC).** Manual PRs and direct commits to `main` are not affected by the schedule — only Renovate-authored PRs.
 
 **Options:**
 
@@ -261,11 +261,11 @@ If timeouts are frequent in steady state (not just during cleanup churn), Renova
 
 ### CVE published, need immediate non-batched update
 
-**Symptoms:** a critical security advisory is published for a dependency. You want the fix to land immediately, bypassing the daily-batching schedule on webapps.
+**Symptoms:** a critical security advisory is published for a dependency. You want the fix to land immediately, bypassing the weekly-batching schedule on webapps.
 
 **How it usually works automatically:**
 
-Renovate's `vulnerabilityAlerts` and `osvVulnerabilityAlerts` settings (in `renovate-config.js`) cause CVE-bumps to bypass schedules. The PR is labelled `security` and opens immediately, regardless of the `before 6am` window.
+Renovate's `vulnerabilityAlerts` and `osvVulnerabilityAlerts` settings (in `renovate-config.js`) cause CVE-bumps to bypass schedules. The PR is labelled `security` and opens immediately, regardless of the `before 6am on Wednesday` window.
 
 **Verify the bypass happened:**
 
@@ -321,7 +321,7 @@ If main starts breaking from auto-merges more than once a quarter, the trust tie
 **Diagnostic checklist:**
 
 1. **Was there anything to update?** Renovate only creates PRs for actual version changes. If nothing's behind, nothing opens. Check the run log for "no updates needed" messages.
-2. **Is the schedule active?** Webapp PRs only open during the `before 6am` window. If Renovate ran at 11am, webapp updates won't be PR'd until tomorrow's morning window.
+2. **Is the schedule active?** Webapp PRs only open during the `before 6am on Wednesday` window. If Renovate ran outside that window, webapp updates won't be PR'd until the next Wednesday morning window.
 3. **Was the PR creation blocked by `prHourlyLimit`?** Default is 2 PRs per repo per hour. Renovate logs when it hits this.
 4. **Is the package disabled?** Check `renovate-config.js` for `enabled: false` rules.
 5. **Did Renovate get past the `repositories[]` array?** If the workflow timed out, repos at the end may not have been processed. See [Renovate workflow times out](#renovate-workflow-times-out).
@@ -558,11 +558,11 @@ Edit `renovate-config.js`, remove `automerge: true` from the relevant `packageRu
 
 | Situation | Bypass? | How |
 |---|---|---|
-| Routine dep update | No | Let it batch to the next 6am window |
+| Routine dep update | No | Let it batch to the next Wednesday 6am window |
 | CVE security update | Already bypassed | `osvVulnerabilityAlerts` does this automatically |
 | Hotfix for production | Yes | Direct manual PR (not Renovate); the schedule only affects Renovate-authored PRs |
 | Content change | Yes | Direct PR; not subject to schedule |
-| Want to test the cascade end-to-end | Sometimes | Trigger Renovate manually right before the 6am window so a fresh PR is ready in the window |
+| Want to test the cascade end-to-end | Sometimes | Trigger Renovate manually right before the Wednesday 6am window so a fresh PR is ready in the window |
 
 ---
 
@@ -669,7 +669,7 @@ See [`renovate.md`](renovate.md) → Cascade Behaviour for full details.
 
 **npm package cascade:** library release → consumer `fix(deps):` PR (auto) → consumer release-please patch → next-tier consumer PRs (auto).
 
-**Webapp batching:** all auto-merging updates land in the `before 6am` UTC window. Security CVE updates bypass the schedule.
+**Webapp batching:** all auto-merging updates land in the weekly `before 6am on Wednesday` UTC window. Security CVE updates bypass the schedule.
 
 ---
 

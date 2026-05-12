@@ -250,11 +250,12 @@ module.exports = {
       automerge: false,
     },
 
-    // ── Webapp daily batching ─────────────────────────────────
+    // ── Webapp weekly batching ────────────────────────────────
     // Vercel deploys on every push to main in the webapps. Without
     // batching, each cascading dep update would trigger a separate
-    // production deploy. Schedule webapp updates to land in a single
-    // early-morning window so accumulated bumps deploy together.
+    // production deploy. Schedule webapp updates to land once a week
+    // so accumulated bumps deploy together — limits Vercel costs to
+    // ~1 automated production deploy per webapp per week.
     //
     // Security CVE updates bypass schedules per Renovate's defaults
     // (osvVulnerabilityAlerts above) — those still PR immediately.
@@ -264,7 +265,7 @@ module.exports = {
         "teqbench/teqbench.app.tradingtoolbox.webapp",
         "teqbench/teqbench.app.liists.webapp",
       ],
-      schedule: ["before 6am"],
+      schedule: ["before 6am on Wednesday"],
     },
   ],
 

@@ -138,7 +138,7 @@ The `@teqbench/*` packages form a hierarchy (e.g. `tbx-mat-icons` → `tbx-mat-s
 
 ### Webapp batching
 
-The three webapp repos (`teqbench.app.website`, `teqbench.app.tradingtoolbox.webapp`, `teqbench.app.liists.webapp`) batch **all** auto-merging updates to a single window (`before 6am` UTC) via a `matchRepositories` schedule rule. Without batching, every cascade hop would trigger a separate Vercel production deploy. Security-CVE updates bypass the schedule and PR immediately.
+The three webapp repos (`teqbench.app.website`, `teqbench.app.tradingtoolbox.webapp`, `teqbench.app.liists.webapp`) batch **all** auto-merging updates to a single weekly window (`before 6am on Wednesday` UTC) via a `matchRepositories` schedule rule. Without batching, every cascade hop would trigger a separate Vercel production deploy; weekly cadence limits automation-driven production deploys to roughly one per webapp per week to keep Vercel costs predictable. Security-CVE updates bypass the schedule and PR immediately.
 
 ---
 
