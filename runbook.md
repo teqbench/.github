@@ -8,7 +8,7 @@ This document complements but does not replace:
 - [`README.md`](README.md) — what this repo contains
 - [`renovate.md`](renovate.md) — Renovate configuration and cascade behaviour
 
-**Audience:** anyone operating the TeqBench CI/CD pipeline. Primary user is the maintainer (Ben). Secondary use cases: handoff, on-call substitute, sabbatical recovery.
+**Audience:** anyone operating the TeqBench CI/CD pipeline. Primary user is the maintainer. Secondary use cases: handoff, on-call substitute, sabbatical recovery.
 
 **How to use this doc:** find the scenario, follow the steps, verify the outcome. Each entry is self-contained.
 
