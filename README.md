@@ -2,6 +2,12 @@
 
 Central CI/CD workflows and configuration for the TeqBench organization.
 
+## Documentation
+
+- [`CLAUDE.md`](CLAUDE.md) — org-wide rules, conventions, and bot/secret reference
+- [`renovate.md`](renovate.md) — Renovate configuration walkthrough and cascade behaviour
+- [`runbook.md`](runbook.md) — operational runbook for manual operations, incident response, and routine maintenance
+
 ## Reusable Workflows
 
 | Workflow | Purpose | Used by |
