@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.4](https://github.com/teqbench/.github/compare/v4.1.3...v4.1.4) (2026-05-13)
+
+
+### Bug Fixes
+
+* **renovate:** allow GH_PACKAGES_TOKEN through action env-regex ([12b93b0](https://github.com/teqbench/.github/commit/12b93b0709fd4e797d3f6ab1ba32fba8a542a20a))
+* **renovate:** wire GitHub Packages token through action env-regex ([c95498c](https://github.com/teqbench/.github/commit/c95498c16f2dbbde6cd87272853dfd05d418ade0))
+
 ## [4.1.3](https://github.com/teqbench/.github/compare/v4.1.2...v4.1.3) (2026-05-13)
 
 
