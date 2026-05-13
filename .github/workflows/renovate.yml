@@ -46,3 +46,8 @@ jobs:
         with:
           configurationFile: renovate-config.js
           token: ${{ steps.app-token.outputs.token }}
+        env:
+          # Temporary: debug-level logs to diagnose @teqbench/* package
+          # lookup failures against npm.pkg.github.com. Remove or downgrade
+          # to "info" once GitHub Packages auth is confirmed working.
+          LOG_LEVEL: debug

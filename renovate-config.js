@@ -34,7 +34,7 @@ module.exports = {
   // level).
   hostRules: [
     {
-      matchHost: "npm.pkg.github.com",
+      matchHost: "https://npm.pkg.github.com/",
       hostType: "npm",
       token: process.env.RENOVATE_TOKEN,
     },
