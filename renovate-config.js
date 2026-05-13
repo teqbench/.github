@@ -25,18 +25,28 @@ module.exports = {
   // ── Host rules ───────────────────────────────────────────────
   // GitHub Packages npm registry auth. @teqbench/* packages are
   // published to npm.pkg.github.com (not public npmjs.org), so
-  // Renovate needs the bot token to look up versions. Without this,
-  // version lookups fail with "no-result" and the multi-hop @teqbench
-  // package cascade doesn't trigger.
+  // Renovate needs a token with packages:read to look up versions.
+  // Without this, version lookups fail with "no-result" and the
+  // multi-hop @teqbench package cascade doesn't trigger.
   //
-  // RENOVATE_TOKEN is set by renovatebot/github-action from the
-  // teqbench-devops-gh-app token (which has packages:read at org
-  // level).
+  // GH_PACKAGES_TOKEN is set by renovate.yml to the workflow's
+  // auto-generated GITHUB_TOKEN (scoped to teqbench/.github with
+  // packages:read in the workflow's permissions block). The
+  // workflow's package read access flows from the source
+  // repository's inherited access on each @teqbench/* package.
+  //
+  // We use a separate env var from RENOVATE_TOKEN (which holds the
+  // teqbench-devops-gh-app token) because the App installation
+  // token has been returning HTTP 403 from npm.pkg.github.com
+  // despite the App having packages:read permission — a known
+  // quirk where the GitHub Packages npm registry's auth path
+  // doesn't reliably honor App installation tokens for cross-repo
+  // package reads.
   hostRules: [
     {
       matchHost: "https://npm.pkg.github.com/",
       hostType: "npm",
-      token: process.env.RENOVATE_TOKEN,
+      token: process.env.GH_PACKAGES_TOKEN,
     },
   ],
 

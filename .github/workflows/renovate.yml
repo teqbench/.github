@@ -19,7 +19,9 @@ on:
     - cron: "17 */3 * * *" # Every 3 hours, offset from :00
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
+  packages: read
 
 jobs:
   renovate:
@@ -51,3 +53,9 @@ jobs:
           # lookup failures against npm.pkg.github.com. Remove or downgrade
           # to "info" once GitHub Packages auth is confirmed working.
           LOG_LEVEL: debug
+          # GITHUB_TOKEN scoped to this workflow (teqbench/.github) with
+          # packages:read. Renovate config can reference this in hostRules
+          # for the npm.pkg.github.com host as an alternative to the App
+          # token, which has been returning 403 from the GitHub Packages
+          # npm registry.
+          GH_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
