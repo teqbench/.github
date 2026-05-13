@@ -22,6 +22,24 @@ module.exports = {
     labels: ["dependencies", "security"],
   },
 
+  // ── Host rules ───────────────────────────────────────────────
+  // GitHub Packages npm registry auth. @teqbench/* packages are
+  // published to npm.pkg.github.com (not public npmjs.org), so
+  // Renovate needs the bot token to look up versions. Without this,
+  // version lookups fail with "no-result" and the multi-hop @teqbench
+  // package cascade doesn't trigger.
+  //
+  // RENOVATE_TOKEN is set by renovatebot/github-action from the
+  // teqbench-devops-gh-app token (which has packages:read at org
+  // level).
+  hostRules: [
+    {
+      matchHost: "npm.pkg.github.com",
+      hostType: "npm",
+      token: process.env.RENOVATE_TOKEN,
+    },
+  ],
+
   // ── Submodules ───────────────────────────────────────────────
   // Track .gitmodules pointer updates so internal teqbench
   // repos (shared-skills with misc-skills, all consumers with
@@ -106,6 +124,10 @@ module.exports = {
     // Internal @teqbench packages: auto-merge all updates (including
     // majors — internal contract changes are coordinated in-PR).
     //
+    // registryUrls: @teqbench/* packages live on GitHub Packages, not
+    // public npm. Tells Renovate to query npm.pkg.github.com (paired
+    // with the hostRules entry above that provides the auth token).
+    //
     // commitMessagePrefix override: use `fix(deps):` so release-please
     // treats internal package updates as patch-bump triggers. This
     // unblocks the multi-hop cascade through the package hierarchy
@@ -114,6 +136,7 @@ module.exports = {
     // a no-bump type and the cascade stops after the first hop.
     {
       matchPackageNames: ["/^@teqbench//"],
+      registryUrls: ["https://npm.pkg.github.com"],
       automerge: true,
       automergeType: "pr",
       groupName: "teqbench packages",
@@ -219,6 +242,16 @@ module.exports = {
     {
       matchPackageNames: ["@types/node"],
       allowedVersions: "<25.0.0",
+    },
+
+    // TypeScript: cap to <6.0.0 until @angular/build supports v6.
+    // Angular's @angular/build@21.x has a peerDependency of
+    // typescript ">=5.9 <6.0", so v6 bumps fail `npm install` with
+    // ERESOLVE. Lift this cap when Angular publishes a build that
+    // supports TS v6 (likely Angular 22+).
+    {
+      matchPackageNames: ["typescript"],
+      allowedVersions: "<6.0.0",
     },
 
     // ── Disabled deps ─────────────────────────────────────────
