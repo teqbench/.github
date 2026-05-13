@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.2](https://github.com/teqbench/.github/compare/v4.1.1...v4.1.2) (2026-05-13)
+
+
+### Bug Fixes
+
+* **renovate:** correct GitHub Packages hostRules matchHost format ([f94a847](https://github.com/teqbench/.github/commit/f94a8476691b7b8a885926a9fa0b9056b6a0a3b0))
+* **renovate:** correct GitHub Packages hostRules matchHost format ([873f4a3](https://github.com/teqbench/.github/commit/873f4a3eea61cdf6c5e52b573083bff7bbf68244))
+
 ## [4.1.1](https://github.com/teqbench/.github/compare/v4.1.0...v4.1.1) (2026-05-13)
 
 
