@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.3](https://github.com/teqbench/.github/compare/v4.1.2...v4.1.3) (2026-05-13)
+
+
+### Bug Fixes
+
+* **renovate:** use workflow GITHUB_TOKEN for GitHub Packages auth ([496e635](https://github.com/teqbench/.github/commit/496e6353987b0f68d3479f6d9ea49c0c70de4e1f))
+* **renovate:** use workflow GITHUB_TOKEN for GitHub Packages auth ([f36f6b6](https://github.com/teqbench/.github/commit/f36f6b66022b902c2fda4342af55e23098b41e47))
+
 ## [4.1.2](https://github.com/teqbench/.github/compare/v4.1.1...v4.1.2) (2026-05-13)
 
 
