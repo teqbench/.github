@@ -48,6 +48,16 @@ jobs:
         with:
           configurationFile: renovate-config.js
           token: ${{ steps.app-token.outputs.token }}
+          # renovatebot/github-action runs Renovate in a Docker container
+          # and only forwards env vars matching this regex into it. The
+          # default does not include `GH_PACKAGES_TOKEN`, so without this
+          # override our var arrives as `undefined` inside the container
+          # and the hostRules token in renovate-config.js silently drops
+          # (manifests as "hostRules[0].token should be a string" warning).
+          #
+          # This value mirrors the action's default and appends our var.
+          # If the action's default changes upstream, sync this list.
+          env-regex: '^(?:CI|LANG|LC_ALL|RENOVATE_\w+|NODE_OPTIONS|LOG_LEVEL|HTTP_PROXY|HTTPS_PROXY|NO_PROXY|GITHUB_COM_TOKEN|GH_PACKAGES_TOKEN)$'
         env:
           # Temporary: debug-level logs to diagnose @teqbench/* package
           # lookup failures against npm.pkg.github.com. Remove or downgrade
@@ -57,5 +67,6 @@ jobs:
           # packages:read. Renovate config can reference this in hostRules
           # for the npm.pkg.github.com host as an alternative to the App
           # token, which has been returning 403 from the GitHub Packages
-          # npm registry.
+          # npm registry. Passed through to the Renovate container by the
+          # `env-regex` override above.
           GH_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -42,6 +42,11 @@ module.exports = {
   // quirk where the GitHub Packages npm registry's auth path
   // doesn't reliably honor App installation tokens for cross-repo
   // package reads.
+  //
+  // The non-`RENOVATE_*` name reaches the Renovate container only
+  // because renovate.yml extends `env-regex` to allow it. Without
+  // that override, the action's default regex drops the var and
+  // this reads as `undefined`.
   hostRules: [
     {
       matchHost: "https://npm.pkg.github.com/",
