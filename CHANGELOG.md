@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.1](https://github.com/teqbench/.github/compare/v4.1.0...v4.1.1) (2026-05-13)
+
+
+### Bug Fixes
+
+* **renovate:** cap typescript at &lt;6.0.0 and authenticate to GitHub Packages ([bfed8e7](https://github.com/teqbench/.github/commit/bfed8e701902146b39b84e0c7aae0a4671cb2cf9))
+* **renovate:** cap typescript at &lt;6.0.0 and authenticate to GitHub Packages ([45ac963](https://github.com/teqbench/.github/commit/45ac963e2174756b04f8a9c8664cd74b033b6a05))
+
 ## [4.1.0](https://github.com/teqbench/.github/compare/v4.0.0...v4.1.0) (2026-05-11)
 
 
