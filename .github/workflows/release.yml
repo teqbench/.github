@@ -113,7 +113,7 @@ jobs:
             }
           }
           EOF
-          npx --yes @microsoft/api-extractor@7.58.11 run --local --config api-extractor.generated.json
+          npx --yes @microsoft/api-extractor@7.58.12 run --local --config api-extractor.generated.json
           rm api-extractor.generated.json
 
       - name: Generate docs/compatibility.json
